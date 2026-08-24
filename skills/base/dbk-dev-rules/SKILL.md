@@ -41,7 +41,7 @@ description: 用户的个人开发习惯与协作硬规则，适用于任何代�
   | cat | `bat` |
   | sed | `sd` |
 
-  若某个不存在，按以下顺序尝试安装：linuxbrew > cargo binstall > apt > 官方安装脚本 > cargo install，都不可行就放弃安装并改用传统命令。
+- **缺失工具的安装顺序**：linuxbrew > cargo binstall > apt > 官方安装脚本 > cargo install；都不可行就放弃安装并改用传统命令。
 
 ## 数据安全
 
