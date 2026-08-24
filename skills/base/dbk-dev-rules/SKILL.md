@@ -1,6 +1,6 @@
 ---
 name: dbk-dev-rules
-description: 用户的个人开发习惯与协作硬规则，适用于任何代码开发任务。只要用户在讨论、阅读、编写或修改代码——包括实现功能、修 bug、重构、代码评审、命名讨论、git 操作（add/commit/push）、技术方案评估、答疑咨询等——都必须先加载本技能再行动，即使用户没有提到"习惯""规范""约定"等字样，也不管任务多小。包含回答语言、咨询类与改动类指令的边界、git 操作限制、命名建议方式等必须遵守的规则。
+description: 用户的个人开发习惯与协作硬规则，适用于任何代码开发任务。只要用户在讨论、阅读、编写或修改代码——包括实现功能、修 bug、重构、代码评审、命名讨论、git 操作（add/commit/push）、技术方案评估、答疑咨询等——都必须先加载本技能再行动，即使用户没有提到"习惯""规范""约定"等字样，也不管任务多小。包含回答语言、咨询类与改动类指令的边界、git 操作限制、命名建议方式、工具选型偏好（gh/context7/paper-search/rg/fd/bat/sd）、文件删除安全等必须遵守的规则。
 ---
 
 # 个人开发习惯（硬性规则）
@@ -27,7 +27,40 @@ description: 用户的个人开发习惯与协作硬规则，适用于任何代�
 | "改成 `target_path` 吧"               | 改动     | 改文件，不 commit                    |
 | "提交一下吧"                          | 明确要求 | 允许 commit（仍不要 push，除非明说） |
 
+## 工具使用
+
+- **GitHub 交互**：Agent 自带的 PR / issue 相关工具优先；覆盖不到的场景用 `gh` CLI（环境中已安装并登录）。
+- **学术搜索**：统一使用 paper-search-mcp。未安装时先装：`uv tool install paper-search-mcp`，用法参考 https://github.com/openags/paper-search-mcp/blob/main/claude-code/SKILL.md
+- **库/框架文档查询**：统一使用 context7 CLI + skills，**优先于其他 web 搜索**。
+- **现代化命令行工具**：环境里已有下列替代品，写命令时直接优先使用，不要退回传统命令：
+
+  | 传统 | 用这个 |
+  |---|---|
+  | grep | `rg` (ripgrep) |
+  | find | `fd` |
+  | cat | `bat` |
+  | sed | `sd` |
+
+  若某个不存在，按以下顺序尝试安装：linuxbrew > cargo binstall > apt > 官方安装脚本 > cargo install，都不可行就放弃安装并改用传统命令。
+
+## 数据安全
+
+- **删除文件一律进回收站，禁止 `rm`**。依次尝试环境中已装的回收站工具：`gio trash` > [gomi](https://github.com/babarot/gomi) > [trash-cli](https://github.com/andreafrancia/trash-cli)；都没有时停下来询问用户，不要直接 rm。
+
+## 相关技能路由
+
+本技能加载后，若任务命中下列场景，继续加载对应技能再行动：
+
+| 场景 | 技能 |
+|---|---|
+| Rust 项目里要 commit/push | `dbk-rust-gates` |
+| 写/改 Python 代码 | `dbk-python-style` |
+| 创建 worktree、开分支并行开发 | `dbk-git-worktree` |
+| 合并上游出现冲突 | `dbk-upstream-conflict` |
+| 处理 GitHub PR 的评审意见 | `dbk-pr-feedback` |
+
 ## Gotchas
 
 - "顺便提一下""记得提交"这类顺带指令也算明确要求，但拿不准就先问一句再执行。
 - 咨询类任务即使发现明显 bug 也只指出，不顺手修。
+
