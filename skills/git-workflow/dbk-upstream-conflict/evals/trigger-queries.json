@@ -1,0 +1,16 @@
+[
+  { "query": "合并 origin/main 之后 src/api.rs 有冲突了，帮我解决一下", "should_trigger": true },
+  { "query": "rebase 到最新 main 的时候报冲突，Cargo.lock 和 Cargo.toml 都撞了", "should_trigger": true },
+  { "query": "同步上游变更到我的分支，有 4 个文件冲突，先帮我看看怎么保留我这边的功能", "should_trigger": true },
+  { "query": "merge upstream/main 出现 conflict，其中接口定义两边改得不一样", "should_trigger": true },
+  { "query": "更新完 main 有冲突，Cargo.lock 那个别手工解吧？", "should_trigger": true },
+  { "query": "cherry-pick 一个 commit 过来冲突了，帮我处理", "should_trigger": true },
+  { "query": "解决一下冲突，注意别把我这版新增的导出逻辑弄丢", "should_trigger": true },
+  { "query": "上游改了这个模块的重构，跟我 PR 里的新功能撞上了，怎么办", "should_trigger": true },
+  { "query": "我刚改的两个文件自己冲突了，怎么回退其中一个", "should_trigger": false },
+  { "query": "git pull 提示 local changes would be overwritten，怎么回事", "should_trigger": false },
+  { "query": "帮我看下这个 PR 的 CI 为什么红", "should_trigger": false },
+  { "query": "npm install 报依赖版本冲突，ELIFECYCLE 错误", "should_trigger": false },
+  { "query": "两个分支的 package-lock.json 冲突了，怎么处理", "should_trigger": false },
+  { "query": "怎么撤销一次已经 push 的 merge commit", "should_trigger": false }
+]

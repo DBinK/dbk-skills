@@ -1,0 +1,16 @@
+[
+  { "query": "看下这个 PR 的评审意见，https://github.com/foo/bar/pull/123", "should_trigger": true },
+  { "query": "处理一下 PR 上的 review comments，CodeRabbit 留了一堆", "should_trigger": true },
+  { "query": "reviewer 说我的错误处理有问题，你评估下他说得对不对", "should_trigger": true },
+  { "query": "把 PR #88 的意见评估一遍写到 notes 里，我看哪些值得修", "should_trigger": true },
+  { "query": "fix PR comments：主要是两处命名和一个空指针风险", "should_trigger": true },
+  { "query": "有人在我 PR 里留了条内联评论说循环里查库性能差，帮我看看", "should_trigger": true },
+  { "query": "评估一下这条 review 意见：建议把 sync 函数改成异步的，属实吗", "should_trigger": true },
+  { "query": "PR 评审过了但有个 nit，回复一下 reviewer 然后修掉", "should_trigger": true },
+  { "query": "帮我在提交前对本地改动做个 code review", "should_trigger": false },
+  { "query": "给我自己的代码提点改进意见，还没开 PR", "should_trigger": false },
+  { "query": "创建一个新 PR 把这个分支合进 main", "should_trigger": false },
+  { "query": "看下 PR 的 CI 为什么挂了", "should_trigger": false },
+  { "query": "merge 这个 PR 到 main", "should_trigger": false },
+  { "query": "给这个 PR 写个描述说明改动内容", "should_trigger": false }
+]

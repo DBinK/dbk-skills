@@ -1,0 +1,16 @@
+[
+  { "query": "开个 worktree，我要并行改另一个 bug", "should_trigger": true },
+  { "query": "给 f-1354 这个单子建一个 worktree 环境", "should_trigger": true },
+  { "query": "另开个目录处理线上问题，别影响我现在的工作区", "should_trigger": true },
+  { "query": "新建一个 worktree 分支来试这个重构方案", "should_trigger": true },
+  { "query": "我想同时推进两件事，帮我起个新分支放到 worktree 里", "should_trigger": true },
+  { "query": "worktree add 一下，分支名你来建议，确认后建", "should_trigger": true },
+  { "query": "开个独立环境跑这个实验性的改动", "should_trigger": true },
+  { "query": "在 ../my-app.worktrees 下再建一个工作副本", "should_trigger": true },
+  { "query": "切到 main 分支拉一下最新代码", "should_trigger": false },
+  { "query": "直接在当前分支上继续开发这个功能", "should_trigger": false },
+  { "query": "clone 一份仓库到别的路径用来跑 CI 测试", "should_trigger": false },
+  { "query": "列出当前所有的 git worktree", "should_trigger": false },
+  { "query": "删掉那个不用的 worktree，清理磁盘", "should_trigger": false },
+  { "query": "docker compose 起一套独立的本地环境", "should_trigger": false }
+]
