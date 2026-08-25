@@ -5,7 +5,7 @@ license: MIT
 compatibility: 需要网络访问 agentskills.io；校验可选 skills-ref CLI
 metadata:
   author: DBinK
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Skill Dev
@@ -14,9 +14,15 @@ Agent Skill 的全生命周期开发：创建、修改、迭代、评估、打�
 
 本文件是**工作流**。拉取的文档才是**唯一权威**的格式细节来源（frontmatter 字段、约束、目录约定、渐进式披露、eval schema、校验工具等）。
 
+> 规则优先级：**个人补充规则 > 在线规范（llms.txt 及其页面） > 本文件其余内容**
+
+## 个人补充规则（优先级最高）
+
+- **版本号更新**：`metadata.version` 使用 semver。首次引入设为 `0.1.0`；影响 agent 行为的内容变更（description、规则、compatibility 等）bump minor（如 `0.1.0` → `0.2.0`）；纯格式/无行为变化 bump patch（如 `0.1.0` → `0.1.1`）。是否 bump 由用户决定，不强制。
+
 ## 核心原则：llms.txt 是唯一事实标准
 
-**https://agentskills.io/llms.txt 是本技能的唯一事实标准。** 它提供全部官方文档的活索引，所有格式规则都以它及其指向的页面为准。不要凭记忆或本文件里的示例写技能——永远先拉取 llms.txt 获取索引，再按需拉取对应页面。如果本文件内容与拉取的文档冲突，一律以拉取到的文档为准。
+**https://agentskills.io/llms.txt 是本技能的唯一事实标准。** 它提供全部官方文档的活索引，所有格式规则都以它及其指向的页面为准。不要凭记忆或本文件里的示例写技能——永远先拉取 llms.txt 获取索引，再按需拉取对应页面。如果本文件内容与拉取的文档冲突，一律以拉取到的文档为准——个人补充规则除外。
 
 ## 工作流
 
