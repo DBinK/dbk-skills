@@ -21,7 +21,9 @@
 ```bash
 # 全局安装（所有项目可用）
 npx skills add DBinK/dbk-skills -g
+```
 
+```bash
 # 只装某一个
 npx skills add DBinK/dbk-skills --skill dbk-agent-rules -g
 ```

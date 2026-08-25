@@ -45,7 +45,11 @@ skills/
    ```bash
    # 方式一：用 skills CLI 从本地路径安装
    npx skills add ./skills -g        # 或指定单个 skill 目录
+   ```
 
+   或
+
+   ```bash
    # 方式二：符号链接到发现路径，改动能即时生效
    ln -s ../../skills/<分类>/<skill名> .agents/skills/<skill名>
    ```
