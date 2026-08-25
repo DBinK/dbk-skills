@@ -1,0 +1,17 @@
+[
+  { "query": "检查一下这个 README 的文风", "should_trigger": true },
+  { "query": "帮我看看这篇文档写得怎么样，有没有冗余", "should_trigger": true },
+  { "query": "把这段 PR 描述润色一下，太啰嗦了", "should_trigger": true },
+  { "query": "写一份 release notes，v1.2.0 加了日志导出功能", "should_trigger": true },
+  { "query": "这篇文档里全是\"进行+动词\"，帮我改掉", "should_trigger": true },
+  { "query": "检查一下这段文本的标点和语态", "should_trigger": true },
+  { "query": "帮我写个设计文档开头，说明这个模块的用途", "should_trigger": true },
+  { "query": "给这个功能写一段对外公告，中文的", "should_trigger": true },
+  { "query": "这段中文翻译成英文，注意标题大小写和 Oxford comma", "should_trigger": true },
+  { "query": "帮我修一下这个函数的性能问题", "should_trigger": false },
+  { "query": "这个 PR 的 CI 为什么挂了", "should_trigger": false },
+  { "query": "看下这个 PR 的评审意见", "should_trigger": false },
+  { "query": "配置一下这个仓库的 CI 流程", "should_trigger": false },
+  { "query": "给这段代码加注释", "should_trigger": false },
+  { "query": "帮我把这个仓库的 README 按模板重写一遍，包含徽章和目录结构", "should_trigger": false }
+]
