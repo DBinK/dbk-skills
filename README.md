@@ -6,7 +6,7 @@
 
 | 文件夹 | Skill | 用途 |
 |---|---|---|
-| `base/` | `dbk-dev-rules` | 全局协作硬规则：中文回答、咨询/改动边界、git 操作熔断、命名只推荐 |
+| `base/` | `dbk-agent-rules` | Agent 协作准则：中文回答、咨询/改动边界、git 操作熔断、命名只推荐 |
 | | `dbk-skill-dev` | Agent Skill 全生命周期：创建、修改、迭代、触发优化与评估 |
 | `languages/` | `dbk-python-style` | Python 约定：uv、3.10+ 基线、类型注解风格、pathlib、rich/loguru |
 | | `dbk-rust-gates` | Rust 门禁：commit 前 fmt+clippy --fix，push 前全量 test |
@@ -23,7 +23,7 @@
 npx skills add DBinK/dbk-skills -g
 
 # 只装某一个
-npx skills add DBinK/dbk-skills --skill dbk-dev-rules -g
+npx skills add DBinK/dbk-skills --skill dbk-agent-rules -g
 ```
 
 ## 约定
