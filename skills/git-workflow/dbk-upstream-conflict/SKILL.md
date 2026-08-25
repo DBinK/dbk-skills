@@ -1,6 +1,11 @@
 ---
 name: dbk-upstream-conflict
 description: 处理合并上游变更时产生的 git 冲突。当 merge/rebase/cherry-pick 出现冲突、同步 origin main 或 upstream 更新导致冲突、用户说"解决冲突""合并上游""更新完 main 有冲突"时使用。核心原则：先评估如何保留本分支/PR 新增功能再吸收上游变化，设计层面的冲突停下来让用户决策；Cargo.lock 冲突有标准重建流程，不手工解。
+license: MIT
+compatibility: 需要 git；Cargo.lock 重建需 cargo 工具链
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # 上游合并冲突处理

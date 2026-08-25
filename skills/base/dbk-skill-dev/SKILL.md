@@ -1,6 +1,11 @@
 ---
 name: dbk-skill-dev
 description: Agent Skill 的全生命周期开发：从零创建新技能、把现有工作流沉淀为技能、修改或扩充已有技能、迭代改进技能行为与输出质量、修复不触发或误触发的技能、优化 description 触发准确率、评估与打包。当用户想创建、改动、迭代任何 skill，或反馈某个 skill 触发不准/效果不好时使用。本技能以 https://agentskills.io/llms.txt 为唯一事实标准，实时拉取最新文档，不依赖本文件里写死的规则。
+license: MIT
+compatibility: 需要网络访问 agentskills.io；校验可选 skills-ref CLI
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # Skill Dev

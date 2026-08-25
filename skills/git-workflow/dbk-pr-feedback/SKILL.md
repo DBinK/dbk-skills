@@ -1,7 +1,11 @@
 ---
 name: dbk-pr-feedback
 description: 处理 GitHub PR 收到的他人评审反馈(review comments / review 意见)。当用户让你看、评估、处理某个 GitHub PR 上的评审意见，提到 reviewer 或 CodeRabbit 等留下的评论，转发粘贴评论内容，或给出 PR 链接时使用——即使用户没有明说"评估"。核心流程：先逐条评估每条意见是否属实和修复价值，把评估写入 ./notes/review/，经用户确认后再修复。仅适用于已推送到远端的 PR 上的评审反馈；对本地未提交改动做一般性 code review、自查代码质量、创建/合并 PR、排查 CI 失败等任务不适用，勿触发本技能。
-compatibility: Requires gh CLI installed and authenticated
+compatibility: 需要已安装并登录 gh CLI
+license: MIT
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # PR 评审意见处理

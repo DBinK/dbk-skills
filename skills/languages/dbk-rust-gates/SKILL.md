@@ -1,6 +1,11 @@
 ---
 name: dbk-rust-gates
 description: 用户在 Rust/Cargo 项目里的提交前与推送前质量门禁。只要要在包含 Cargo.toml 的项目里执行 add/commit/push、或用户提到提交、推送、发版、修 CI，就必须先按本技能跑完对应检查再行动——即使用户没有提"检查"或"测试"。包含两条硬性门禁：commit 前必须先跑 cargo fmt 和 clippy --fix；push 前必须先跑全量 cargo test。非 Rust 项目不适用。
+license: MIT
+compatibility: 需要 Rust 工具链（cargo、rustfmt、clippy）
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # Rust 提交/推送门禁

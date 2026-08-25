@@ -1,6 +1,10 @@
 ---
 name: dbk-git-worktree
 description: 创建 git worktree 并行开发环境。当用户要开 worktree、为某个任务新开独立目录/分支干活、要并行处理两件事互不干扰时使用——即使用户没说出"worktree"这个词（比如"另开个环境改这个""开个分支处理一下"）。流程：先提议分支名并等用户确认，再创建到 ../<项目名>.worktrees/<分支名最后一层> 下；重名时加后缀区分。不适用于普通切分支（git checkout/swtich）或在当前目录继续开发。
+license: MIT
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # worktree 创建

@@ -1,6 +1,10 @@
 ---
 name: dbk-agent-rules
 description: 用户与 Agent 协作的指导规则，适用于任何代码开发任务。只要用户在讨论、阅读、编写或修改代码——包括实现功能、修 bug、重构、代码评审、命名讨论、git 操作（add/commit/push）、技术方案评估、答疑咨询等——都必须先加载本技能再行动，即使用户没有提到"习惯""规范""约定"等字样，也不管任务多小。包含回答语言、咨询类与改动类指令的边界、git 操作限制、命名建议方式、工具选型偏好（gh/context7/paper-search/rg/fd/bat/sd）、文件删除安全等必须遵守的规则。
+license: MIT
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # Agent 协作准则

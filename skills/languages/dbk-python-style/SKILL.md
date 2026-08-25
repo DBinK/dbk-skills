@@ -1,6 +1,11 @@
 ---
 name: dbk-python-style
 description: 用户的现代 Python 开发约定，适用于任何涉及 Python 的任务——写代码、改代码、评审、重构、建环境、装依赖、写脚本调试等，只要出现 .py 文件或提到 Python/pip/uv 就应加载本技能，即使用户没有提"规范"或"约定"。包含环境管理（uv）、版本基线（3.10+/3.13+）、类型注解风格、pathlib 文件操作、rich/loguru 调试工具选型等硬性偏好。
+license: MIT
+compatibility: 需要 uv 与 Python 3.10+（推荐 3.13+）
+metadata:
+  author: DBinK
+  version: "0.1.0"
 ---
 
 # 现代 Python 开发约定
