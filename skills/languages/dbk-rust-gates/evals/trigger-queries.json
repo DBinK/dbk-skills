@@ -1,0 +1,35 @@
+[
+    {
+        "query": "Rust 项目准备 push，这次只改了 parser 里的一个函数，推之前该跑哪些测试？",
+        "should_trigger": true,
+        "expected_behavior": "检查分支累计 diff、调用方和已有测试，选择有依据的最小测试集，不默认执行 workspace 全量测试。"
+    },
+    {
+        "query": "Cargo workspace 里改了公共 crate 的返回值，推送前需要把哪些地方测一遍？",
+        "should_trigger": true,
+        "expected_behavior": "包含受影响的直接和传递依赖方测试，不只测试公共 crate。"
+    },
+    {
+        "query": "Rust 分支已经提交过代码了，现在只改了 README，准备 push，测试还需要跑吗？",
+        "should_trigger": true,
+        "expected_behavior": "仍检查 merge-base(main, HEAD) 到 HEAD 的累计变更，不能因工作区只有文档而跳过测试。"
+    },
+    {
+        "query": "只更新了 Cargo.lock，push 前需要做哪些检查？",
+        "should_trigger": true,
+        "expected_behavior": "至少运行受影响包和依赖方的包级测试，影响无法界定时回退 workspace 全量。"
+    },
+    {
+        "query": "Rust 测试输出 0 tests，但退出码是 0，这样能直接 push 吗？",
+        "should_trigger": true,
+        "expected_behavior": "不视为通过，核对测试筛选与实际执行数量。"
+    },
+    {
+        "query": "帮我提交纯 JavaScript 项目的按钮修复，项目没有 Cargo.toml。",
+        "should_trigger": false
+    },
+    {
+        "query": "解释一下 Rust 的生命周期语法，不涉及提交或测试。",
+        "should_trigger": false
+    }
+]

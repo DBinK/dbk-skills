@@ -24,7 +24,7 @@
 - **指令分型**：咨询类只分析不改文件，改动类只改文件。
 - **不可逆动作熔断**：`commit` / `push` / 删除等写操作等用户显式授权。
 - **先评估再动手**：评审意见、上游变更、自动修复结果先核实真实性，再判断修复价值。
-- **质量门禁前置**：commit 前格式化 + lint 自动修复，push 前全量测试。
+- **质量门禁前置**：commit 前格式化 + lint 自动修复，push 前按分支相对 main 的变更执行受影响测试。
 - **经验持续沉淀**：每次纠错回写到对应技能的 Gotchas。
 
 ## Skills
@@ -35,7 +35,7 @@
 | | [`dbk-skill-dev`](skills/base/dbk-skill-dev/) | Skill 全生命周期开发：创建、迭代、触发优化与评估 |
 | | [`dbk-doc-style`](skills/base/dbk-doc-style/) | 项目文档文风检查与生成：中英文规范、去冗余、读者边界 |
 | `languages/` | [`dbk-python-style`](skills/languages/dbk-python-style/) | Python 约定：uv、3.10+ 基线、类型注解风格、pathlib、rich/loguru |
-| | [`dbk-rust-gates`](skills/languages/dbk-rust-gates/) | Rust 门禁：commit 前 fmt + clippy --fix，push 前全量 test |
+| | [`dbk-rust-gates`](skills/languages/dbk-rust-gates/) | Rust 门禁：commit 前 fmt + clippy --fix，push 前最小受影响 test，影响不明时扩大范围 |
 | `git-workflow/` | [`dbk-git-worktree`](skills/git-workflow/dbk-git-worktree/) | worktree 创建流程：分支名建议 → 确认 → `.worktrees/` 落位 |
 | | [`dbk-upstream-conflict`](skills/git-workflow/dbk-upstream-conflict/) | 上游合并冲突处理：保留本分支功能、Cargo.lock 重建 |
 | | [`dbk-pr-feedback`](skills/git-workflow/dbk-pr-feedback/) | PR 评审意见处理：先评估 → 写 notes/review → 确认后修复 |
@@ -45,7 +45,7 @@
 全局安装（所有项目可用）：
 
 ```bash
-npx skills add DBinK/dbk-skills -g
+npx skills add DBinK/dbk-skills -g -y
 ```
 
 只装某一个：
