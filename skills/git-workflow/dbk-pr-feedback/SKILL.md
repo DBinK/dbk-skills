@@ -5,7 +5,7 @@ compatibility: 需要已安装并登录 gh CLI
 license: MIT
 metadata:
   author: DBinK
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # PR 评审意见处理
@@ -41,7 +41,8 @@ gh api repos/{owner}/{repo}/issues/{pr_number}/comments
 
 把评估写入仓库根目录 `./notes/review/` 下（目录不存在则创建）：
 
-- 文件命名参考同目录下已有文件的风格；目录为空时用 `<PR编号>-<简短主题>.md`
+- 文件名格式：`<PR编号>-<YYMMDD>-<HHMM>-<简短主题>.md`，例如 `158-260805-1358-something.md`。时间取写笔记时的本地时间，主题用简短小写英文、短横线连接
+- 目录里已有的旧笔记不回溯改名
 - 格式同样参考同目录已有文件；无参照时用下面的模板
 - 按评论顺序排列，一条意见一个二级标题
 
