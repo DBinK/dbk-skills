@@ -1,11 +1,11 @@
 ---
 name: dbk-upstream-conflict
-description: 处理合并上游变更时产生的 git 冲突。当 merge/rebase/cherry-pick 出现冲突、同步 origin main 或 upstream 更新导致冲突、用户说"解决冲突""合并上游""更新完 main 有冲突"时使用。核心原则：先评估如何保留本分支/PR 新增功能再吸收上游变化，设计层面的冲突停下来让用户决策；Cargo.lock 冲突有标准重建流程，不手工解。
+description: 处理合并上游变更时产生的 git 冲突。当 merge/rebase/cherry-pick 出现冲突、同步 origin main 或 upstream 更新导致冲突、用户说"解决冲突""合并上游""更新完 main 有冲突"时使用。核心原则：先评估如何保留本分支/PR 新增功能再吸收上游变化，设计层面的冲突停下来让用户决策；Cargo.lock 冲突有标准重建流程，不手工解；CHANGELOG 冲突把本分支条目排到 Unreleased 末尾，利于后续合并。
 license: MIT
 compatibility: 需要 git；Cargo.lock 重建需 cargo 工具链
 metadata:
   author: DBinK
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # 上游合并冲突处理
@@ -27,6 +27,22 @@ git fetch origin main --no-tags && git restore --source origin/main -- Cargo.loc
 ```
 
 `cargo check` 会按合并后的 Cargo.toml 重新生成一致的 Cargo.lock。仅 Rust 项目适用。
+
+## CHANGELOG 冲突（Keep a Changelog）
+
+`CHANGELOG.md` 用 Keep a Changelog 格式时，解完冲突**把本分支新增的条目排在 `## [Unreleased]` 段落末尾**（子段落 `### Added` / `### Fixed` 等同理），上游条目放前面：
+
+```markdown
+## [Unreleased]
+
+### Added
+
+- 上游新进的条目
+
+- 本分支新增的条目 ← 固定排在末尾
+```
+
+上游后续新增条目一般仍落在 Unreleased 顶部，本分支内容固定在末尾，两边改动位置错开，下次合并就不容易再撞冲突。两边的条目都要保留，不要整段选某一侧。
 
 ## 边界
 

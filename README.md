@@ -39,6 +39,8 @@
 | `git-workflow/` | [`dbk-git-worktree`](skills/git-workflow/dbk-git-worktree/) | worktree 创建流程：分支名建议 → 确认 → `.worktrees/` 落位 |
 | | [`dbk-upstream-conflict`](skills/git-workflow/dbk-upstream-conflict/) | 上游合并冲突处理：保留本分支功能、Cargo.lock 重建 |
 | | [`dbk-pr-feedback`](skills/git-workflow/dbk-pr-feedback/) | PR 评审意见处理：先评估 → 写 notes/review → 确认后修复 |
+| | [`dbk-pr-commit-reply`](skills/git-workflow/dbk-pr-commit-reply/) | PR 评审收尾（仅手动触发）：按领域拆提交 → push → 逐条回复评审意见 |
+| | [`dbk-pr-execute-reply`](skills/git-workflow/dbk-pr-execute-reply/) | PR 评审执行落地（仅手动触发）：执行已定方案 → 分段提交 → push → 逐条回复评审意见 |
 
 ## 安装
 

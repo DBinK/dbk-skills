@@ -1,0 +1,18 @@
+[
+  { "query": "dbk-pr-execute-reply：把刚才聊的方案直接改了，分段提交推上去并回复评审", "should_trigger": true },
+  { "query": "按我们刚聊定的改法动手，改完分成几个提交推上去，把评审意见逐条回复掉", "should_trigger": true },
+  { "query": "用 dbk-pr-execute-reply 走一遍：执行 → commit → push → 回复意见", "should_trigger": true },
+  { "query": "方案定了，你现在就改，改完提交推到 PR 并回复那些评论", "should_trigger": true },
+  { "query": "评审那几处我们聊好怎么改了，直接实现吧，按模块分开提交后 push 并回复", "should_trigger": true },
+  { "query": "别光说方案了，照刚才的结论改代码，分次提交推上去回复 reviewer", "should_trigger": true },
+  { "query": "PR #158 的评审方案已经定了，执行落地：改代码、提交、推送、逐条回复", "should_trigger": true },
+  { "query": "按我们刚聊的方案把代码改了", "should_trigger": false },
+  { "query": "评审都改完了，提交推送并回复评论", "should_trigger": false },
+  { "query": "看下 PR 的评审意见，评估下哪些要修", "should_trigger": false },
+  { "query": "跟我说说这个 PR 的评审意见怎么改比较好", "should_trigger": false },
+  { "query": "把当前改动提交一下", "should_trigger": false },
+  { "query": "合并这个 PR 到 main", "should_trigger": false },
+  { "query": "PR 的 CI 挂了，看下为什么", "should_trigger": false },
+  { "query": "给这个 PR 补个描述", "should_trigger": false },
+  { "query": "帮我把这个分支 rebase 到最新 main", "should_trigger": false }
+]

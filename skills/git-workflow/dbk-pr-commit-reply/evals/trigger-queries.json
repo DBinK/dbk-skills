@@ -1,0 +1,20 @@
+[
+  { "query": "dbk-pr-commit-reply 走一遍：把这些评审修复提交推送，然后逐条回复评论", "should_trigger": true },
+  { "query": "评审意见都改完了，帮我按领域拆几次提交推上去，并回复 PR 上的评论", "should_trigger": true },
+  { "query": "用 dbk-pr-commit-reply 给这个 PR 收尾", "should_trigger": true },
+  { "query": "把修好的东西提交并 push 到 PR 分支，顺便把 reviewer 的意见逐条回复掉", "should_trigger": true },
+  { "query": "这几处按评审改完了，改动跨了两个模块，分开提交后推上去回复一下评审", "should_trigger": true },
+  { "query": "PR 那个 review 我都处理完了，提交推送 + 回复评论，帮我做完", "should_trigger": true },
+  { "query": "帮我收尾：commit、push，然后回复 PR #158 上的评审意见", "should_trigger": true },
+  { "query": "CodeRabbit 提的那几条都改了，跑一下 dbk-pr-commit-reply", "should_trigger": true },
+  { "query": "改完了，提交一下", "should_trigger": false },
+  { "query": "把当前改动 push 上去", "should_trigger": false },
+  { "query": "回复一下 PR 上那条评论，代码我还没改", "should_trigger": false },
+  { "query": "看下这个 PR 的评审意见，评估下哪些要修", "should_trigger": false },
+  { "query": "把评审里说的那个空指针风险改掉", "should_trigger": false },
+  { "query": "合并这个 PR 到 main", "should_trigger": false },
+  { "query": "PR 的 CI 为什么红了，帮我看下", "should_trigger": false },
+  { "query": "帮我给这个 PR 写个描述", "should_trigger": false },
+  { "query": "把工作区里所有改动都提交了，不用管 PR", "should_trigger": false },
+  { "query": "帮我新建一个 PR 把分支合进去", "should_trigger": false }
+]
