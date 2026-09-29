@@ -1,0 +1,18 @@
+[
+  { "query": "帮我把 scripts/fetch_data.py 里的 requests 换成 httpx", "should_trigger": true },
+  { "query": "这个 Python 项目怎么建虚拟环境？", "should_trigger": true },
+  { "query": "给这个函数补上类型注解", "should_trigger": true },
+  { "query": "我这段代码全是 os.path，帮我统一成 pathlib", "should_trigger": true },
+  { "query": "打印这个 dict 太丑了，怎么好看点", "should_trigger": true },
+  { "query": "帮我给这个批处理流程加个进度条", "should_trigger": true },
+  { "query": "Python 脚本要打日志，用什么库好", "should_trigger": true },
+  { "query": "重构一下这个类，顺便把命名风格统一了", "should_trigger": true },
+  { "query": "用 conda 装依赖可以吗", "should_trigger": true },
+  { "query": "~/work/etl 这个仓库全是 os.path 和 typing.List，能顺手统一一下吗", "should_trigger": true },
+  { "query": "帮我写个 Node 脚本，批量重命名这些文件", "should_trigger": false },
+  { "query": "Rust 里怎么优雅地处理这种 Option 嵌套", "should_trigger": false },
+  { "query": "这个 CSS 在 Safari 上布局错位了", "should_trigger": false },
+  { "query": "解释一下这个 bash 脚本里 trap 的用法", "should_trigger": false },
+  { "query": "MySQL 这条查询为什么没走索引", "should_trigger": false },
+  { "query": "这个 Makefile 怎么写多目标规则", "should_trigger": false }
+]

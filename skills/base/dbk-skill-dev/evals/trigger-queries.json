@@ -1,0 +1,18 @@
+[
+  { "query": "帮我写个新 skill，用来规范我们团队的日志格式", "should_trigger": true },
+  { "query": "把刚才这套排查流程沉淀成一个 skill", "should_trigger": true },
+  { "query": "给 dbk-doc-style 加一条规则：中文正文不用分号", "should_trigger": true },
+  { "query": "这个 skill 老是不触发，帮我调一下 description", "should_trigger": true },
+  { "query": "我那个 worktree 技能在该用的时候没触发，不该用的时候乱触发，看看怎么回事", "should_trigger": true },
+  { "query": "改完技能之后怎么验证触发率？把评估也一起补上", "should_trigger": true },
+  { "query": "这个 skill 的 description 太长了，我想精简到 1024 字符以内", "should_trigger": true },
+  { "query": "把 dbk-rust-gates 的兼容性说明补一下，需要 cargo 工具链", "should_trigger": true },
+  { "query": "帮我把这个技能打包成能安装的产物", "should_trigger": true },
+  { "query": "dbk-pr-feedback 这个 skill 帮我加载一下", "should_trigger": false },
+  { "query": "现在有哪些 skill 可以用？", "should_trigger": false },
+  { "query": "帮我在 ~/.agents/skills 下找一下有没有处理 Excel 的技能", "should_trigger": false },
+  { "query": "帮我装一下前面看到那个 PDF 处理的 skill", "should_trigger": false },
+  { "query": "帮我写个 VS Code 扩展，注册一个命令", "should_trigger": false },
+  { "query": "帮我把这个 README 润色一下，太啰嗦", "should_trigger": false },
+  { "query": "Rust 项目 push 前要跑哪些检查？", "should_trigger": false }
+]

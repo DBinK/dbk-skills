@@ -6,7 +6,13 @@
 
 ## 2026-09-29
 
+### Added
+
+- 为 `dbk-agent-rules`、`dbk-skill-dev`、`dbk-python-style` 补充 `evals/trigger-queries.json`，触发评估覆盖全部 10 个技能。
+
 ### Changed
+
+- 复测触发率后调整 3 条 description 的触发语与"不适用"边界：`dbk-doc-style` 补"文档写得怎么样"一类问法，`dbk-git-worktree`、`dbk-upstream-conflict` 补误触发场景。
 
 - 收敛 8 个技能的 `description`：统一为"做什么 + 何时用 + 不适用"，把原先夹带的流程、规则与机制说明移回正文，并补上"不适用"边界。涉及 `dbk-upstream-conflict`、`dbk-pr-feedback`、`dbk-rust-gates`、`dbk-git-worktree`、`dbk-skill-dev`、`dbk-pr-commit-reply`、`dbk-agent-rules`、`dbk-python-style`。
 - `dbk-pr-commit-reply`、`dbk-pr-execute-reply`：逐条回复评审意见后新增"重新请求评审"步骤——用 `gh api` 把留下意见的人类 reviewer 重新加回评审请求，汇报与 Gotchas 同步补充机器人跳过、重复请求等要点。
