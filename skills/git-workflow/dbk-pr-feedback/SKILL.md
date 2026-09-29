@@ -59,7 +59,7 @@ gh api repos/{owner}/{repo}/issues/{pr_number}/comments
 
 <必须修 / 可选 / 不修，理由>
 
-### 修复思路
+### 修复思路（供参考）
 
 <具体修复方案>
 ```
