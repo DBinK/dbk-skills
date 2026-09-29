@@ -27,7 +27,7 @@ skills/
 
 - skill 目录名 = frontmatter `name`，统一带 `dbk-` 前缀
 - 分类文件夹只用于组织，新增 skill 放进对应分类即可
-- 触发评估查询集放在各 skill 的 `evals/trigger-queries.json`
+- 触发评估查询集（可选产物）放在各 skill 的 `evals/trigger-queries.json`
 
 ## 测试与验证
 
@@ -58,18 +58,26 @@ skills/
 
    新会话中确认 skill 能被发现。
 
-3. **触发实测**：用 `evals/trigger-queries.json` 里的正负例查询做无头运行，检查目标 skill 是否被加载：
+3. **触发实测**：用 `evals/trigger-queries.json` 里的正负例查询做无头运行，检查目标 skill 是否被加载。查询集是可选产物，默认跟随仓库现状：有就按下面跑实测，没有就提醒用户"可以建一套查询集来实测触发率"，不要主动补建，也不要跳过验证直接宣称改好了。
 
-   - 用你所在 agent 客户端的非交互模式运行每条查询
-   - 通过客户端提供的可观测手段确认 skill 是否加载（会话导出、执行日志或工具调用记录中查找 skill 加载痕迹）
-   - 正例应触发、负例不应触发；不过关就迭代 description 再测
-
-   以 opencode 为例：
+   仓库里带了示例脚本 `skills/base/dbk-skill-dev/scripts/run_trigger_eval.py`，以 pi 为例：
 
    ```bash
-   opencode run --title "test-$RANDOM" --dir <临时目录> "<查询>"
-   # 从会话列表找到对应 session，export 后 grep "Loaded skill: <name>"
+   uv run skills/base/dbk-skill-dev/scripts/run_trigger_eval.py \
+     skills/<分类>/<skill名>/evals/trigger-queries.json <skill名> --runs 1
    ```
+
+   脚本要求 Python 3.10+：`uv run` 会按脚本内的 PEP 723 元数据自动挑解释器，也可以直接用任意 3.10+ 的 `python3` 执行。
+
+   判定标志是"agent 是否真的读了技能正文"。换客户端时把脚本里的启动命令和判定方式一起替换，各客户端的判定位置：
+
+   - omp：输出里出现 `skill://<skill名>`
+   - claude：名为 `Skill` 的 tool_use
+   - opencode：加载日志出现 `Loaded skill: <name>`，若 `opencode run` 不回显，改用会话导出后 grep
+
+   注意别用"输出里出现 SKILL.md 路径"这种朴素判定——多数客户端会把技能清单连同路径一起注入系统提示，那样每条查询都会判成触发。
+
+   正例应触发、负例不应触发；不过关就迭代 description 再测。`--runs 1` 只用于粗筛，判定回归要对新旧两版同口径各跑多次，不能只看单次结果。
 
 ## 注意
 

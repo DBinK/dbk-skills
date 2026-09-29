@@ -2,7 +2,7 @@
 name: dbk-skill-dev
 description: Agent Skill 的全生命周期开发：从零创建新技能、把现有工作流沉淀为技能、修改或扩充已有技能、迭代改进技能行为与输出质量、修复不触发或误触发的技能、优化 description 触发准确率、评估与打包。当用户想创建、改动、迭代任何 skill，或反馈某个 skill 触发不准/效果不好时使用。不适用于只是调用或加载技能、不涉及创建与修改的任务。
 license: MIT
-compatibility: 需要网络访问 agentskills.io；校验可选 skills-ref CLI
+compatibility: 需要网络访问 agentskills.io；触发实测示例脚本需 Python 3.10+（推荐 uv）并以 pi CLI 为例；校验可选 skills-ref CLI
 metadata:
   author: DBinK
   version: "0.2.0"
@@ -19,6 +19,7 @@ Agent Skill 的全生命周期开发：创建、修改、迭代、评估、打�
 ## 个人补充规则（优先级最高）
 
 - **版本号更新**：`metadata.version` 使用 semver。首次引入设为 `0.1.0`；影响 agent 行为的内容变更（description、规则、compatibility 等）bump minor（如 `0.1.0` → `0.2.0`）；纯格式/无行为变化 bump patch（如 `0.1.0` → `0.1.1`）。是否 bump 由用户决定，不强制。
+- **`evals/trigger-queries.json` 是可选产物**：不要因为"在做技能开发"就自动创建它，也不要把创建它当成开发流程的必做项。目标仓库没有这套查询集时，不要主动补建。只在需要验证触发、或用户问到触发率时，提醒用户"可以建一套查询集来实测"。仓库里已有查询集时，才按第 5 步跑实测。
 
 ## 核心原则：llms.txt 是唯一事实标准
 
@@ -38,15 +39,15 @@ Agent Skill 的全生命周期开发：创建、修改、迭代、评估、打�
 
 根据任务拉取对应页面（具体 URL 以第 1 步的索引为准）：
 
-| 任务 | 拉取 |
-| --- | --- |
+| 任务                       | 拉取                                                                                                                  |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | 任何创建 / 编辑 / 格式问题 | `specification.md` —— 格式规范：SKILL.md frontmatter、name/description 约束、目录结构、可选目录、渐进式披露、文件引用 |
-| 第一次做 / 最小示例 | `skill-creation/quickstart.md` —— 一个最小的可用技能 |
-| 设计技能内容 | `skill-creation/best-practices.md` —— 范围界定、控制力度、指令模式、gotchas、模板 |
-| 验证技能是否好用 | `skill-creation/evaluating-skills.md` —— 测试用例、evals/evals.json schema、baseline 运行、评分、迭代循环 |
-| 优化触发准确率 | `skill-creation/optimizing-descriptions.md` —— 触发评估查询、调优 `description` |
-| 打包可执行代码 | `skill-creation/using-scripts.md` —— 如何设计和打包脚本 |
-| 给 agent/客户端加支持 | `client-implementation/adding-skills-support.md` —— 仅当任务是关于客户端而非技能时 |
+| 第一次做 / 最小示例        | `skill-creation/quickstart.md` —— 一个最小的可用技能                                                                  |
+| 设计技能内容               | `skill-creation/best-practices.md` —— 范围界定、控制力度、指令模式、gotchas、模板                                     |
+| 验证技能是否好用           | `skill-creation/evaluating-skills.md` —— 测试用例、evals/evals.json schema、baseline 运行、评分、迭代循环             |
+| 优化触发准确率             | `skill-creation/optimizing-descriptions.md` —— 触发评估查询、调优 `description`                                       |
+| 打包可执行代码             | `skill-creation/using-scripts.md` —— 如何设计和打包脚本                                                               |
+| 给 agent/客户端加支持      | `client-implementation/adding-skills-support.md` —— 仅当任务是关于客户端而非技能时                                    |
 
 任何涉及 SKILL.md 格式本身的任务都要拉 `specification.md`。新建技能时至少要拉 `specification.md` 和 `best-practices.md`；任务需要时再拉其他页面。
 
@@ -74,6 +75,23 @@ Agent Skill 的全生命周期开发：创建、修改、迭代、评估、打�
   - 该触发没触发 / 不该触发却触发 → 按 `optimizing-descriptions.md` 调 `description`（触发评估查询 + train/validation 循环）
   - 触发了但输出质量差 → 按 `evaluating-skills.md` 的 eval 工作流：写 2-3 个真实测试提示词，带技能和不带技能（baseline）对比运行，评分并迭代
 - 每次用户纠正了技能的行为，把纠错沉淀回 SKILL.md 的 Gotchas 或对应步骤，避免重复犯错。
+
+#### 触发率实测
+
+仓库里已有 `evals/trigger-queries.json` 时，用 `scripts/run_trigger_eval.py` 跑：
+
+```bash
+uv run scripts/run_trigger_eval.py <skill>/evals/trigger-queries.json <skill-name> --runs 1
+```
+
+`scripts/run_trigger_eval.py` 是一份可照抄的示例，以 pi 为例。脚本要求 Python 3.10+（`uv run` 会按脚本内的 PEP 723 元数据自动挑解释器，也可直接用任意 3.10+ 的 `python3`）。触发标志是"agent 真的读了技能正文"，换客户端要改的两处写在脚本开头的 docstring 里。
+
+几条实测纪律：
+
+- **先粗筛再确认**：`--runs 1` 只用来找可疑项。真实触发率落在 0.3–0.7 之间的查询，单次运行经常落成 0 或 1，只看单次结果会误判回归。要判定回归，就给新旧两版同口径各跑多次，或至少对翻转项补 `--runs 3`。
+- **客户端之间不可比**：同一技能在不同客户端或模型下的分数可能差一倍以上，前后对比必须固定同一个客户端。
+- **改完边界要复跑正例**：往"不适用"里补误触发场景，有时反而会吸引该场景命中。每次改 `description` 后正例和负例都要重跑，不能只看目标那几条。
+- **整批全 0 不等于没触发**：客户端在特定状态下不会把技能注入系统提示，此时 agent 手里一个技能都没有——负例轻松通过、正例全军覆没，而且不报错。已证伪的解释包括内存余量、并发数、客户端更新、输出捕获方式和临时目录，故障窗口会持续数十秒到数分钟且无法按需复现。脚本自带预检（跑之前先用查询集里第一条正例确认客户端能加载技能），预检失败时退出码为 2，等一会儿重跑即可。
 
 ### 6. 打包与呈现
 
