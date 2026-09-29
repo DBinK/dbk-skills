@@ -2,11 +2,13 @@
 
 本仓库是个人 Agent Skills 集合，通过 [skills CLI](https://github.com/vercel/skills)（`npx skills add DBinK/dbk-skills -g`）分发。本文件指导 Agent 在本仓库内开发。
 
-## 开发 Skill 前必读
+## 开发前必读
+
+**动手开发前，先加载 `skills/base/dbk-agent-rules/SKILL.md`，按其协作准则执行。**
 
 **开发、修改、迭代任何 skill 之前，先加载 `skills/base/dbk-skill-dev/SKILL.md` 并按其工作流执行。**
 
-核心要求（详见该文件）：
+`dbk-skill-dev` 的核心要求（详见该文件）：
 
 - 格式规范以 https://agentskills.io/llms.txt 为唯一事实标准，动手前先拉取索引和对应页面，不要凭记忆写。
 - description 是唯一的触发机制，必须同时说明"做什么"和"何时用"，并列出用户真实会说的话。

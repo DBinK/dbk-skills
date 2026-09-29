@@ -4,6 +4,12 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，条目按日期组织（个人项目，暂不采用版本号）。
 
+## 2026-09-29
+
+### Changed
+
+- `dbk-upstream-conflict`：新增主动调用入口——显式调用且无其他指令时，默认从上游拉取主分支合并进当前分支；description、正文默认流程与触发评估查询同步覆盖该场景。
+
 ## 2026-08-25
 
 ### Added
