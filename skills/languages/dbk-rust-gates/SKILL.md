@@ -1,6 +1,6 @@
 ---
 name: dbk-rust-gates
-description: 用户在 Rust/Cargo 项目里的提交前与推送前质量门禁。在包含 Cargo.toml 的项目里执行 add/commit/push，或用户提到提交、推送、发版、修 CI、只测本分支相对 main 的改动、最小化测试时使用，即使没有提检查或测试。commit 前含 Rust 源码改动时运行 cargo fmt 和 clippy --fix。push 前以本分支相对 main 的变更选择最小受影响测试集，包含调用方测试，影响不明确时逐级扩大范围。不影响 Rust 构建或测试的纯文档等改动跳过门禁。非 Rust 项目不适用。
+description: 用户在 Rust/Cargo 项目里的提交前与推送前质量门禁。在包含 Cargo.toml 的项目里执行 add/commit/push，或用户提到提交、推送、发版、修 CI、只测本分支相对 main 的改动、最小化测试时使用，即使没有提检查或测试。非 Rust 项目不适用；改动不影响 Rust 构建或测试（如纯文档）时也不适用。
 license: MIT
 compatibility: 需要 Rust 工具链（cargo、rustfmt、clippy）
 metadata:

@@ -8,6 +8,8 @@
 
 ### Changed
 
+- 收敛各技能的 `description`：统一为"做什么 + 何时用 + 不适用"三部分，把原先夹带的流程、规则与机制说明移回正文。涉及 `dbk-upstream-conflict`、`dbk-pr-feedback`、`dbk-rust-gates`、`dbk-git-worktree`、`dbk-doc-style`、`dbk-skill-dev`、`dbk-pr-commit-reply`、`dbk-agent-rules`、`dbk-python-style`。
+- `dbk-git-worktree`：修正 description 中的拼写 `swtich` → `switch`。
 - `dbk-upstream-conflict`：新增主动调用入口——显式调用且无其他指令时，默认从上游拉取主分支合并进当前分支；description、正文默认流程与触发评估查询同步覆盖该场景。
 
 ## 2026-08-25

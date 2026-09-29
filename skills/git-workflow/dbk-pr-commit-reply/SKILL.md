@@ -1,6 +1,6 @@
 ---
 name: dbk-pr-commit-reply
-description: 把按 PR 评审意见修好的改动提交、推送到 PR，并逐条回复评审意见；改动跨领域且较多时按领域拆成多次提交。仅在用户显式调用时使用（点名 dbk-pr-commit-reply，或明确要求"把评审修复提交推送并回复评论""评审收尾"）；不要从上下文自动触发。普通 commit/push、只回复评论、只提交不回复、创建或合并 PR、排查 CI 都不适用。
+description: 把按 PR 评审意见修好的改动提交、推送到 PR，并逐条回复评审意见。仅在用户显式调用时使用（点名 dbk-pr-commit-reply，或明确要求"把评审修复提交推送并回复评论""评审收尾"）；不要从上下文自动触发。普通 commit/push、只回复评论、只提交不回复、创建或合并 PR、排查 CI 都不适用。
 compatibility: 需要 git 与已安装并登录的 gh CLI
 license: MIT
 metadata:
