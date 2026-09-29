@@ -12,6 +12,7 @@
 - `dbk-pr-commit-reply`、`dbk-pr-execute-reply`：逐条回复评审意见后新增"重新请求评审"步骤——用 `gh api` 把留下意见的人类 reviewer 重新加回评审请求，汇报与 Gotchas 同步补充机器人跳过、重复请求等要点。
 - `dbk-git-worktree`：修正 description 中的拼写 `swtich` → `switch`。
 - `dbk-upstream-conflict`：新增主动调用入口——显式调用且无其他指令时，默认从上游拉取主分支合并进当前分支；description、正文默认流程与触发评估查询同步覆盖该场景。
+- `dbk-doc-style`：中文正文不用分号 `；` 的规则覆盖全部用法——连接并列分句与分隔句内并列成分都在内，附并列成分改顿号的例子；检查清单的改写方式同步对齐。
 
 ## 2026-08-25
 
