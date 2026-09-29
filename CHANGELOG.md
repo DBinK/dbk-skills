@@ -8,7 +8,8 @@
 
 ### Changed
 
-- 收敛各技能的 `description`：统一为"做什么 + 何时用 + 不适用"三部分，把原先夹带的流程、规则与机制说明移回正文。涉及 `dbk-upstream-conflict`、`dbk-pr-feedback`、`dbk-rust-gates`、`dbk-git-worktree`、`dbk-doc-style`、`dbk-skill-dev`、`dbk-pr-commit-reply`、`dbk-agent-rules`、`dbk-python-style`。
+- 收敛 8 个技能的 `description`：统一为"做什么 + 何时用 + 不适用"，把原先夹带的流程、规则与机制说明移回正文，并补上"不适用"边界。涉及 `dbk-upstream-conflict`、`dbk-pr-feedback`、`dbk-rust-gates`、`dbk-git-worktree`、`dbk-skill-dev`、`dbk-pr-commit-reply`、`dbk-agent-rules`、`dbk-python-style`。
+- `dbk-pr-commit-reply`、`dbk-pr-execute-reply`：逐条回复评审意见后新增"重新请求评审"步骤——用 `gh api` 把留下意见的人类 reviewer 重新加回评审请求，汇报与 Gotchas 同步补充机器人跳过、重复请求等要点。
 - `dbk-git-worktree`：修正 description 中的拼写 `swtich` → `switch`。
 - `dbk-upstream-conflict`：新增主动调用入口——显式调用且无其他指令时，默认从上游拉取主分支合并进当前分支；description、正文默认流程与触发评估查询同步覆盖该场景。
 

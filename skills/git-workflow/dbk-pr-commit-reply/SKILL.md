@@ -5,7 +5,7 @@ compatibility: 需要 git 与已安装并登录的 gh CLI
 license: MIT
 metadata:
   author: DBinK
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # PR 评审修复的提交与回复
@@ -79,9 +79,25 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/comments/{comment_id}/replies -f b
 
 回复里说清结论：已修（简述怎么改的、在哪个提交）/ 不修（说明理由）。一条意见一条回复，别把多条意见揉成一条 PR 级总评论；不得不在 PR 级评论里回复时，正文 @ 该 reviewer。
 
-### 6. 汇报
+### 6. 重新请求评审
 
-向用户列：提交清单（hash + message）、push 结果、逐条回复了哪些意见、有没有没回的意见及原因。push 后 CI 会重跑，把链接一并给出。
+回复完成后，把留下评审意见的 reviewer 重新加回评审请求，让 PR 回到待评审状态：
+
+```bash
+# 找出给过意见的 reviewer（reviews 与内联评论合并去重）
+gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews --jq '.[].user.login' | sort -u
+gh api repos/{owner}/{repo}/pulls/{pr_number}/comments --jq '.[].user.login' | sort -u
+
+# 逐个重新请求评审（人类 reviewer，跳过机器人）
+gh api --method POST repos/{owner}/{repo}/pulls/{pr_number}/requested_reviewers \
+  -f 'reviewers[]=<login>'
+```
+
+只请求人类 reviewer：`[bot]` 结尾的账号（CodeRabbit 等）无法被请求，跳过它们。某个 reviewer 已被请求且仍处于待评审状态时重复请求会报错，忽略即可。
+
+### 7. 汇报
+
+向用户列：提交清单（hash + message）、push 结果、逐条回复了哪些意见、重新请求了哪些 reviewer、有没有没回的意见及原因。push 后 CI 会重跑，把链接一并给出。
 
 ## Gotchas
 
@@ -91,3 +107,4 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/comments/{comment_id}/replies -f b
 - 强推会重置 PR 时间线，可能让既有评论的行号错位；能不强推就不强推。
 - 门禁在提交前跑，别等 push 后 CI 红了再补。
 - 交付时如果改动跨了多个评审条目，回复和提交要对得上：哪条意见对应哪个提交，别张冠李戴。
+- 重新请求评审的对象是留下意见的人类 reviewer，不是机器人；把 `[bot]` 账号也塞进 `reviewers[]` 会请求失败。
