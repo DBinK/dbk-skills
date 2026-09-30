@@ -33,7 +33,23 @@ skills/
 
 1. **格式校验**：用官方校验工具 [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) 检查 frontmatter 合法性（name 小写连字符、description ≤1024 字符等）。
 
-   使用前先检查本地是否已安装、版本是否最新；没有或过期就从 https://github.com/agentskills/agentskills/tree/main/skills-ref 克隆下来，用 `uv tool install ./<目录>` 安装：
+   优先用 `uvx` 直接跑：免安装，每次按最新版解析（想强制刷新加 `--refresh`）：
+
+   ```bash
+   uvx skills-ref validate ./skills/<分类>/<skill名>
+   ```
+
+   不想走 PyPI 时，可从公开源码仓库直接跑，不必克隆：
+
+   ```bash
+   uvx --from 'git+https://github.com/agentskills/agentskills#subdirectory=skills-ref' skills-ref validate ./skills/<分类>/<skill名>
+   ```
+
+   两条已核实的坑：PyPI 元数据里的 Repository 链接（`github.com/anthropics/agentskills`）已 404，公开仓库是 `agentskills/agentskills`；两个来源的版本会错开——实测 PyPI 是 **0.1.1**，而仓库 main 的 `pyproject.toml` 仍写 0.1.0，所以别假设"源码形式更新"，以 `skills-ref --version` 实际输出为准。
+
+   注意：`uvx skills-ref` 不带子命令时会打印用法并以退出码 2 结束，这是正常行为，不是安装失败。
+
+   需要固定版本或离线使用时，退回本地安装：
 
    ```bash
    git clone https://github.com/agentskills/agentskills /tmp/opencode/agentskills
