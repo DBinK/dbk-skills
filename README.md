@@ -59,5 +59,5 @@ npx skills add DBinK/dbk-skills --skill dbk-agent-rules -g
 ## 约定
 
 - Skill 格式遵循 [agentskills.io](https://agentskills.io) 规范，统一带 `dbk-` 前缀。
-- 触发靠 frontmatter 的 `description` 匹配；新增或修改技能后跑触发评估（各技能的 `evals/trigger-queries.json` 存有正负例查询集）。
-- 本地开发时通过 `.agents/skills/` 下的符号链接接入发现路径，改动能即时生效。
+- 触发靠 frontmatter 的 `description` 匹配，新增或修改技能后需跑触发评估（正负例查询集在各技能 `evals/trigger-queries.json`）。
+- 本地开发时通过 `.agents/skills/` 下的符号链接接入，改动即时生效。
