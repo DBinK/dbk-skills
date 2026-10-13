@@ -1,10 +1,18 @@
 [
     {
+        "query": "帮我把 src/utils/parser.py 里那个双重循环优化一下",
+        "should_trigger": true
+    },
+    {
         "query": "这个函数这样写有没有性能问题？",
         "should_trigger": true
     },
     {
-        "query": "帮我把 src/utils/parser.py 里那个双重循环优化一下",
+        "query": "我打算把缓存层从 Redis 换成进程内 LRU，这个方案你觉得怎么样",
+        "should_trigger": true
+    },
+    {
+        "query": "这个报错看不懂，怎么排查",
         "should_trigger": true
     },
     {
@@ -20,15 +28,7 @@
         "should_trigger": true
     },
     {
-        "query": "帮我 review 一下这个模块的设计，看看有没有坑",
-        "should_trigger": true
-    },
-    {
-        "query": "我打算把缓存层从 Redis 换成进程内 LRU，这个方案你觉得怎么样",
-        "should_trigger": true
-    },
-    {
-        "query": "这个报错看不懂，怎么排查",
+        "query": "帮我对比一下用 gh 还是 git 原生命令拉 PR 评论",
         "should_trigger": true
     },
     {
@@ -36,31 +36,51 @@
         "should_trigger": true
     },
     {
-        "query": "帮我对比一下用 gh 还是 git 原生命令拉 PR 评论",
+        "query": "帮我把这份 PDF 里的表格提取成 Excel",
         "should_trigger": true
     },
     {
         "query": "帮我把这段中文翻译成英文，语气正式一点",
-        "should_trigger": false
-    },
-    {
-        "query": "今天下午的日程有什么安排",
-        "should_trigger": false
-    },
-    {
-        "query": "给我推荐几家附近的川菜馆",
-        "should_trigger": false
-    },
-    {
-        "query": "帮我把这份 PDF 里的表格提取成 Excel",
-        "should_trigger": false
+        "should_trigger": true
     },
     {
         "query": "帮我写一首关于秋天的短诗",
         "should_trigger": false
     },
     {
+        "query": "帮我查一下 context7 和 firecrawl 有什么区别",
+        "should_trigger": true
+    },
+    {
         "query": "解释一下这张财务报表里毛利率为什么掉了",
+        "should_trigger": true
+    },
+    {
+        "query": "今天下午的日程有什么安排",
+        "should_trigger": true
+    },
+    {
+        "query": "你觉得 Rust 和 Go 哪个更值得学",
+        "should_trigger": true
+    },
+    {
+        "query": "帮我 review 一下这个模块的设计，看看有没有坑",
+        "should_trigger": true
+    },
+    {
+        "query": "嗯，好的",
+        "should_trigger": false
+    },
+    {
+        "query": "先不用了，我自己看看",
+        "should_trigger": false
+    },
+    {
+        "query": "收到",
+        "should_trigger": false
+    },
+    {
+        "query": "哈哈，这个梗我懂",
         "should_trigger": false
     }
 ]
