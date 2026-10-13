@@ -31,6 +31,10 @@ Agent Client Protocol 拿结构化事件，判定依据只有一个——有没�
   加 --json-strict 可以少些噪音。
 - 坑四：`--approve-all` 会连写入一起放行。测技能触发只需要读权限，这里固定用
   `--approve-reads --non-interactive-permissions deny`，读自动放行、写一律拒绝。
+- 坑六：**别在批量运行里带 `@latest`**。实测本机 `npx -y acpx@latest --version`
+  要 31-38s，不带 `@latest` 只要 1.17s，直接调 npx 缓存里的二进制是 0.11s。
+  所以预热阶段跑一次 `acpx@latest` 刷新缓存，批量运行统一用不带版本的形式，
+  一整轮 21 条从 ~400s 降到百秒级。想换回每次都查最新版，把 ACPX 改回 ACPX_LATEST 即可。
 - 坑五：npx 缓存是冷的、又同时起多个进程时会互相抢下载，个别运行会直接崩
   （exit=1，stderr 里只剩一行 Node.js 版本号）。所以脚本开跑前先做一次预热运行，
   再放并发，用 `--no-preflight` 可以跳过。
@@ -58,15 +62,18 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import PurePath
 
-ACPX = ["npx", "-y", "acpx@latest"]
+# 批量运行不带 @latest：它会强制查 registry 的 dist-tag，实测本机要 31-38s，
+# 不带则只要 1.17s（命中同一个 npx 缓存）。版本新鲜度交给预热阶段处理。
+ACPX = ["npx", "-y", "acpx"]
+ACPX_LATEST = ["npx", "-y", "acpx@latest"]
 PATH_KEYS = ("path", "file_path", "filePath", "filename")
 TOOL_TITLES = {"skill", "load skill", "use skill", "read skill"}
 
 
-def build_cmd(agent: str, prompt: str, cwd: str, timeout: int) -> list[str]:
+def build_cmd(agent: str, prompt: str, cwd: str, timeout: int, prefix: list[str] | None = None) -> list[str]:
     """拼 acpx 命令行。全局选项必须排在 agent 子命令之前。"""
     return [
-        *ACPX,
+        *(prefix or ACPX),
         "--format", "json",
         "--json-strict",
         "--approve-reads",
@@ -166,6 +173,36 @@ def preflight(agent: str, cwd: str, timeout: int) -> tuple[bool, str]:
     实测过并发抢冷缓存的坑：同时起 3 个 `npx acpx@latest`，个别进程会直接崩，
     stderr 里只剩一行 Node.js 版本号，看起来像「没触发」，其实只是没跑起来。
     """
+    def refresh() -> None:
+        try:
+            subprocess.run([*ACPX_LATEST, "--version"], capture_output=True, text=True, timeout=180)
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+
+    def versions() -> tuple[str, str]:
+        """(缓存里的版本, registry 上的最新版)。查 dist-tag 实测只要 0.3s。"""
+        have = latest = ""
+        try:
+            proc = subprocess.run([*ACPX, "--version"], capture_output=True, text=True, timeout=120)
+            have = proc.stdout.strip() if proc.returncode == 0 else ""
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+        try:
+            proc = subprocess.run(["npm", "view", "acpx", "version"], capture_output=True, text=True, timeout=60)
+            latest = proc.stdout.strip() if proc.returncode == 0 else ""
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+        return have, latest
+
+    # 只在缓存落后时才付 @latest 的重装代价（实测 30s 以上）。版本一致就直接用缓存，
+    # 预热从 46s 降到几秒。拿不到最新版（离线等）时沿用缓存，不阻断实测。
+    have, latest = versions()
+    if not have or (latest and have != latest):
+        refresh()
+        have, latest = versions()
+    if not have:
+        return False, "npx 缓存里的 acpx 不可用，刷新后仍拿不到版本号"
+
     cmd = build_cmd(agent, "回复两个字：收到", cwd, timeout)
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 60)
