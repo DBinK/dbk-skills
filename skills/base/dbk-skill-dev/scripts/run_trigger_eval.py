@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
+# dependencies = ["rich"]
 # ///
 """触发率实测示例：跑一组查询，看目标技能是否真的被加载。
 
@@ -14,9 +15,9 @@
     `python3` 直接执行会明确报错退出。
 
 可观测性
-    开跑前打印规模（查询数 × runs、并发数、单次上限）；预检单独计时；运行中每 5 秒往
-    stderr 打一行心跳（完成数 + 正在跑的序号及已耗时）；加 `--verbose` 时每完成一次运行
-    再打一行；结尾给每条查询的平均耗时、整批总耗时与最慢单次。卡住时先看心跳，再用
+    开跑前打印规模（查询数 × runs、并发数、单次上限）；预检单独计时；运行中以 rich 进度条
+    实时显示完成进度与耗时；加 `--verbose` 时每完成一次运行再打一行（序号、耗时、结果）；
+    结尾给每条查询的平均耗时、整批总耗时与最慢单次。卡住时看进度条是否长时间不动，再用
     `--verbose` 的最后一行定位到具体是哪条查询。
 
 查询集形如：
@@ -37,8 +38,10 @@
     `Loaded skill: <name>`。
 
 退出码
-    0 = 全部通过，1 = 有查询未通过，2 = 预检失败（环境不可信，直接重试即可），
+    0 = 全部通过，1 = 有查询未通过，2 = 预检连续拿不到有效输出（环境不可信，重试即可），
     3 = 解释器低于 3.10。
+    预检只把"连续 error"当环境故障；返回 `no` 说明客户端正常、只是这条正例本次没触发，
+    会打警告后继续跑。
     预检故障实测是间歇性的，同一命令隔一会儿重跑就能过。
 
 运行建议
@@ -52,9 +55,9 @@
       描述问题，而是客户端侧根本没产出有效响应——额度不足、鉴权失败、网络不通都会这样；
       实测遇到过 provider 返回 402 Insufficient Balance。这类失败有的会被脚本标成
       `ERR`，有的只是回一段文本、不读任何技能，看起来就像"全都没触发"。先看客户端自己的
-      报错，再怀疑描述。脚本跑之前会用查询集里第一条正例做预检，不通过就中止；没有任何
-      事件输出、或模型返回空响应（assistant 消息为空且无任何工具调用）的运行则标成
-      `ERR` 单独计数。
+      报错，再怀疑描述。脚本跑之前会用查询集里第一条正例做预检：只有连续 `error` 才中止；
+      正例全灭且负例全过时会额外警告"先排查客户端"；没有任何事件输出、或模型返回空响应
+      （assistant 消息为空且无任何工具调用）的运行则标成 `ERR` 单独计数。
 """
 
 import argparse
@@ -63,13 +66,23 @@ import platform
 import subprocess
 import sys
 import tempfile
-import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any
+
+# rich 由脚本头上的 PEP 723 元数据在 uv 运行时装入，编辑器所用解释器里可能没有
+from rich.console import Console  # pyright: ignore[reportMissingImports]
+from rich.progress import (  # pyright: ignore[reportMissingImports]
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    TimeElapsedColumn,
+)
 
 DEFAULT_TIMEOUT = 180
+PREFLIGHT_ATTEMPTS = 3
 
 
 def _as_text(value: object) -> str:
@@ -146,31 +159,6 @@ def run_once(query: str, skill: str, timeout: int) -> str:
     return "no"
 
 
-def _heartbeat(progress: dict[str, Any], lock: threading.Lock, interval: float = 5.0) -> threading.Event:
-    """每 interval 秒往 stderr 打一行进度，避免运行时看不到卡在哪。
-
-    progress 记录：start（起始单调时钟）、total（总运行次数）、done（已完成次数）、
-    active（正在跑的 {序号: 开始时间}）。返回的 Event set 之后心跳线程退出。
-    """
-    stop = threading.Event()
-
-    def loop() -> None:
-        while not stop.wait(interval):
-            now = time.monotonic()
-            with lock:
-                done = progress["done"]
-                total = progress["total"]
-                active = dict(progress["active"])
-            running = "、".join(
-                f"#{index}({now - began:.0f}s)" for index, began in sorted(active.items())
-            )
-            tail = f"，运行中 {running}" if running else ""
-            print(f"[+{now - progress['start']:5.1f}s] 完成 {done}/{total}{tail}", file=sys.stderr)
-
-    threading.Thread(target=loop, daemon=True).start()
-    return stop
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(description="触发率实测示例（以 pi 为例）")
     parser.add_argument("queries", type=Path, help="查询集 JSON 文件")
@@ -205,54 +193,80 @@ def main() -> int:
         file=sys.stderr,
     )
 
-    # 预检：先用第一条正例确认客户端能把技能喂给模型，不通过就整批中止
+    # 预检：用第一条正例确认客户端能正常产出响应。分两种失败——
+    #   error：没拿到有效输出（额度、鉴权、网络、客户端状态），连续几次都这样才中止；
+    #   no：客户端正常，只是这条正例本次没触发（一句话能办完的查询很常见），警告后继续。
     positives = [item["query"] for item in queries if item["should_trigger"]]
     if positives and not args.no_preflight:
         canary = positives[0]
         print(f"预检：{canary}", file=sys.stderr)
-        began = time.monotonic()
-        status = run_once(canary, args.skill, args.timeout)
-        took = time.monotonic() - began
-        if status != "yes":
+        status = "error"
+        took = 0.0
+        for attempt in range(1, PREFLIGHT_ATTEMPTS + 1):
+            began = time.monotonic()
+            status = run_once(canary, args.skill, args.timeout)
+            took = time.monotonic() - began
+            if status != "error":
+                break
             print(
-                f"预检未触发（status={status}，用时 {took:.1f}s），整批结果不可信，已中止。"
-                "先看客户端自己的报错，修好再重跑；确认无误时可加 --no-preflight。",
+                f"预检第 {attempt}/{PREFLIGHT_ATTEMPTS} 次没拿到有效输出（{took:.1f}s）"
+                + ("，重试…" if attempt < PREFLIGHT_ATTEMPTS else ""),
+                file=sys.stderr,
+            )
+        if status == "error":
+            print(
+                f"预检连续 {PREFLIGHT_ATTEMPTS} 次没有有效输出（用时 {took:.1f}s），整批结果"
+                "不可信，已中止。先看客户端自己的报错（额度、鉴权、网络），修好再重跑。",
                 file=sys.stderr,
             )
             return 2
-        print(f"预检通过（{took:.1f}s）", file=sys.stderr)
+        if status == "yes":
+            print(f"预检通过（{took:.1f}s）", file=sys.stderr)
+        else:
+            print(
+                f"预检未触发（status=no，{took:.1f}s）：客户端正常，只是这条正例本次没读技能，"
+                "继续跑。若该技能正例整体偏低，先怀疑 description。",
+                file=sys.stderr,
+            )
 
     start = time.monotonic()
-    lock = threading.Lock()
-    progress: dict[str, Any] = {"start": start, "total": len(jobs), "done": 0, "active": {}}
-    stop_heartbeat = _heartbeat(progress, lock)
 
     def timed_run(index: int, query: str) -> tuple[int, str, float]:
-        """跑一次查询，顺带记录起止时间，供心跳与统计使用。"""
+        """跑一次查询，顺带记录起止时间，供进度条与统计使用。"""
         began = time.monotonic()
-        with lock:
-            progress["active"][index] = began
-        try:
-            status = run_once(query, args.skill, args.timeout)
-        finally:
-            with lock:
-                progress["active"].pop(index, None)
-                progress["done"] += 1
+        status = run_once(query, args.skill, args.timeout)
         return index, status, time.monotonic() - began
 
     results: list[tuple[str, float]] = [("error", 0.0)] * len(jobs)
-    with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures = [pool.submit(timed_run, index, query) for index, query in enumerate(jobs)]
-        for future in as_completed(futures):
-            index, status, took = future.result()
-            results[index] = (status, took)
-            if args.verbose:
-                print(
-                    f"[+{time.monotonic() - start:5.1f}s] #{index} {took:5.1f}s "
-                    f"{status:5}  {jobs[index]}",
-                    file=sys.stderr,
+    completed = 0
+    console = Console(stderr=True)
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task_id = progress.add_task("触发评估", total=len(jobs))
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = {
+                pool.submit(timed_run, index, query): index
+                for index, query in enumerate(jobs)
+            }
+            for future in as_completed(futures):
+                index, status, took = future.result()
+                results[index] = (status, took)
+                completed += 1
+                progress.update(
+                    task_id,
+                    advance=1,
+                    description=f"触发评估（剩余 {len(jobs) - completed}）",
                 )
-    stop_heartbeat.set()
+                if args.verbose:
+                    progress.console.log(
+                        f"#{index} {took:5.1f}s {status:5}  {jobs[index]}"
+                    )
 
     # 按查询把结果切回各自的 runs 段，触发率过半即算通过
     pos_total = pos_pass = neg_total = neg_pass = errors = 0
@@ -281,6 +295,11 @@ def main() -> int:
     slowest = max((took for _, took in results), default=0.0)
     print(f"\nshould-trigger: {pos_pass}/{pos_total}   should-not: {neg_pass}/{neg_total}")
     print(f"总耗时 {elapsed:.1f}s：{len(results)} 次运行，平均 {average:.1f}s，最慢 {slowest:.1f}s")
+    if pos_total and pos_pass == 0 and neg_pass == neg_total:
+        print(
+            "警告：正例全部未触发、负例全部通过。这通常不是描述问题，而是客户端没把技能喂给"
+            "模型（或额度/网络异常）；先用 --verbose 复跑两三条确认，再据此下结论。"
+        )
     if errors:
         print(
             f"另有 {errors} 条运行失败未计入。整批全 0 通常不是没触发，"
