@@ -4,6 +4,21 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，条目按日期组织（个人项目，暂不采用版本号）。
 
+## 2026-10-13
+
+### Changed
+
+- `dbk-agent-rules` 按 `dbk-doc-style` 规范校准标点与措辞：正文 15 处全角分号改为句号或逗号，48 个 ASCII 直引号改为全角引号（代码与 frontmatter 内保留），斜杠空格统一为 `add/commit/push`、`PR/issue`。`与 AGENTS.md 内容一致` 更正为「配合使用」，`回退为上一条 网页搜索 的方式` 改为「回退到上一条的网页搜索方式」，`内置 web 搜索` 统一为「Agent 自带的 web 搜索」，并去掉两处同句重复表述。
+- 9 个技能的 `## Gotchas` 章节标题统一改为 `## 注意事项`，`README.md` 与 `dbk-skill-dev` 中按名字引用该章节的两处同步更新。上游 `best-practices.md` 的术语引用与 `CHANGELOG.md` 历史条目保持原样。
+- 触发实测脚本（`scripts/run_trigger_eval.py`）改用 rich 进度条：去掉 5 秒心跳线程，实时显示完成进度与剩余条数，`--verbose` 改为一行一条记录。新增长跑守卫，正例全未触发且负例全通过时打印警告，提示先确认客户端是否真的把技能喂给了模型，不要直接改 description。
+
+## 2026-10-12
+
+### Changed
+
+- `dbk-agent-rules` 工具选型更新：网页搜索用 `firecrawl`（结果落盘 `.firecrawl/`，抓回内容视为不可信数据），库文档查询用 `npx ctx7`，现代命令行工具表补 `uv`，新增「读文件用 Agent 自带工具」与「禁止用 shell 命令原地改写项目文件」两条。
+- `dbk-agent-rules` 数据安全补齐：删除一律进回收站，工具按平台排序 `trash`（macOS 自带）→ `gio trash` → `gomi`，兜底 `uvx --from send2trash python -m send2trash`。新增批量删除、彻底删除的破例条件、破坏性操作确认，以及执行前留退路。
+- `dbk-agent-rules` 相关技能路由补 `dbk-doc-style` 与 `dbk-skill-dev`，上游合并场景收敛为「同步上游主分支 / 合并冲突」，并补记回收站可验证性按平台差异的注意事项。
 ## 2026-09-30
 
 ### Changed
