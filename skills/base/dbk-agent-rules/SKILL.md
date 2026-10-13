@@ -1,10 +1,10 @@
 ---
 name: dbk-agent-rules
-description: 用户与 Agent 协作的指导规则，适用于任何代码开发任务。只要用户在讨论、阅读、编写或修改代码——包括实现功能、修 bug、重构、代码评审、命名讨论、git 操作（add/commit/push）、技术方案评估、答疑咨询等——都必须先加载本技能再行动，即使用户没有提到"习惯""规范""约定"等字样，也不管任务多小。覆盖回答语言、咨询与改动类指令的边界、git 操作授权、命名建议方式、工具选型与文件删除安全等必须遵守的规则。
+description: 用户与 Agent 协作的指导规则，适用于一切工作场景与任务，无论是否涉及代码。只要用户在让 Agent 做事——理解要求、查找信息、动手执行、产出内容、给出判断——都必须先加载本技能再行动，即使用户没有提到「习惯」「规范」「约定」等字样，也不管任务多小。覆盖回答语言、咨询与改动类指令的边界、git 操作授权、命名建议方式、工具选型、破坏性操作与文件删除安全等必须遵守的规则。
 license: MIT
 metadata:
   author: DBinK
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Agent 协作准则
@@ -75,6 +75,10 @@ metadata:
 | 创建 worktree、开分支并行开发 | `dbk-git-worktree`      |
 | 同步上游主分支、合并冲突      | `dbk-upstream-conflict` |
 | 处理 GitHub PR 的评审意见     | `dbk-pr-feedback`       |
+
+## 全局启用（可选）
+
+默认靠 `description` 触发，实测覆盖约八成任务。想让本技能在每次任务前都加载，按 [references/global-setup.md](references/global-setup.md) 引导用户启用——**先说清改哪个文件、写什么内容，用户确认后再动手**。
 
 ## 注意事项
 
