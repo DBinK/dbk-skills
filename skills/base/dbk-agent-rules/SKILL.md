@@ -76,7 +76,7 @@ metadata:
 | 同步上游主分支、合并冲突      | `dbk-upstream-conflict` |
 | 处理 GitHub PR 的评审意见     | `dbk-pr-feedback`       |
 
-## Gotchas
+## 注意事项
 
 - “顺便提一下”“记得提交”这类顺带指令也算明确要求，但拿不准就先问一句再执行。
 - 咨询类任务即使发现明显 bug 也只指出，不顺手修。

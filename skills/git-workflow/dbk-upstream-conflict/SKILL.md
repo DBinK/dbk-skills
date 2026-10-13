@@ -66,7 +66,7 @@ git fetch <remote> <main> --no-tags && git restore --source <remote>/<main> -- C
 - push 一律不在本技能范围内，需要用户另外明说。
 - 冲突量大或涉及关键模块时，先给用户一份冲突清单和逐项处理计划，确认后再批量动手。
 
-## Gotchas
+## 注意事项
 
 - 解冲突前确认基线：fetch 最新的上游引用，别基于过期的 origin main 判断。
 - `git checkout --theirs/--ours` 在 merge 和 rebase 中方向相反（merge 中 ours=当前分支，rebase 中 ours=被 rebase 到的基线），用之前想清楚方向，拿不准就手工编辑。

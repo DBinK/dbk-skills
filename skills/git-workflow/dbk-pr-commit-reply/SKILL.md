@@ -99,7 +99,7 @@ gh api --method POST repos/{owner}/{repo}/pulls/{pr_number}/requested_reviewers 
 
 向用户列：提交清单（hash + message）、push 结果、逐条回复了哪些意见、重新请求了哪些 reviewer、有没有没回的意见及原因。push 后 CI 会重跑，把链接一并给出。
 
-## Gotchas
+## 注意事项
 
 - 回复必须挂在对应的内联 discussion 上；只发一条总评论时，reviewer 在原讨论里看不到回复，会以为你漏了。
 - `./notes/review/` 笔记默认是本地评估材料，不进提交；项目若有版本化评审记录的约定，先问用户。

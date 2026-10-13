@@ -74,7 +74,7 @@ Agent Skill 的全生命周期开发：创建、修改、迭代、评估、打�
 - 用户反馈技能"没触发""误触发""效果不好"时，先定位问题类型：
   - 该触发没触发 / 不该触发却触发 → 按 `optimizing-descriptions.md` 调 `description`（触发评估查询 + train/validation 循环）
   - 触发了但输出质量差 → 按 `evaluating-skills.md` 的 eval 工作流：写 2-3 个真实测试提示词，带技能和不带技能（baseline）对比运行，评分并迭代
-- 每次用户纠正了技能的行为，把纠错沉淀回 SKILL.md 的 Gotchas 或对应步骤，避免重复犯错。
+- 每次用户纠正了技能的行为，把纠错沉淀回 SKILL.md 的注意事项或对应步骤，避免重复犯错。
 
 #### 触发率实测
 

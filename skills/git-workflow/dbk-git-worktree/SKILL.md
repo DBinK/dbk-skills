@@ -60,7 +60,7 @@ git worktree add ../my-app.worktrees/add-login -b feat/add-login
 
 创建成功后告知用户 worktree 路径及进入方式（`cd <路径>`）。
 
-## Gotchas
+## 注意事项
 
 - worktree 与主仓库共享同一个 `.git`，在 worktree 内正常 add/commit 即可，但 commit/push 仍遵守"用户明确要求才做"的规则。
 - 同一分支不能同时被两个 worktree 检出；如果分支已存在且被占用，提示用户换名或复用现有 worktree。

@@ -76,7 +76,7 @@ cargo test --workspace --all-features
 3. 任何一步失败就停下：修复后从头重跑该步，**不要带病提交**；修不了就把报错原样汇报给用户。
 4. 测试通过、用户已明确要求后才能实际执行 commit / push。
 
-## Gotchas
+## 注意事项
 
 - `--allow-dirty --allow-staged` 是必需的：提交前工作区必然有未提交改动，不加会直接报错退出。
 - `-D warnings` 让 warning 也算失败，这是有意的，不要为了通过而去掉。

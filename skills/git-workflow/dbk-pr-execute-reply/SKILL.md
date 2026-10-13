@@ -92,7 +92,7 @@ gh api --method POST repos/{owner}/{repo}/pulls/{pr_number}/requested_reviewers 
 
 向用户列：提交清单（hash + message）、push 结果、逐条回复了哪些意见、重新请求了哪些 reviewer、没回的原因。push 后 CI 会重跑，把链接一并给出。
 
-## Gotchas
+## 注意事项
 
 - 别把"聊到一半的设想"当成已定方案执行；确认过再动手。
 - 执行阶段顺手冒出来的无关改动，既不混进提交，也不单独开提交。
