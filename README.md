@@ -1,12 +1,14 @@
 # dbk-skills
 
-我是对代码掌控欲很强的人，和 Agent 协作得多了，经常会遇到这样的情况：让 Agent 改代码，改完了它竟然没经我审批，就自己 commit 还 push 了。无论什么模型，都经常做出类似这样预期之外的行动，我需要经常在协作时提醒它。
+与 Agent 协作开发时，失控往往发生在边界模糊的瞬间：咨询类问题被当成改动执行、修改完成后未经确认便自动 `commit` 与 `push`、外部评审意见未经甄别就全盘采纳。
 
-一来二去也提醒得烦了，于是我把需要反复提醒它的场景，沉淀成现在这一套 Skills。它做的事很单一，把边界讲清楚，让 Agent 动手前先确认。如果你也看重代码架构和质量，不喜欢 Agent 乱改，这套 Skills 应该对你有用。
+`dbk-skills` 是一套面向代码质量与工程安全的 Agent Skills 规则集。核心逻辑只有一条：**明确人机权责边界，不可逆操作必须显式授权**。
 
-## 为什么 Agent 不听话
+如果你同样看重代码架构与工程交付质量，希望建立受控、可预测的人机协作流程，这套 Skills 可以提供直接支持。
 
-我认为根源是 LLM 的**指令遵循倾向**：外部输入进来，它倾向直接执行，不做判断。问题集中在四个环节：
+## 痛点根源：过度顺从与行动偏向
+
+问题的根源在于大模型的后训练机制（SFT/RLHF）：为了追求高效的任务达成率与人机对齐，模型被强化出了强烈的**过度顺从与行动偏向（Action Bias）**。这导致 Agent 在面对外部输入时，天生倾向于直接推进并执行操作，容易跳过对指令性质与权责边界的审视。常见问题集中在四个环节：
 
 | 痛点 | 表现 |
 |---|---|
@@ -17,9 +19,7 @@
 
 ## 设计原则
 
-针对上述痛点，我做了下面的设计：
-
-所有 Skill 遵守同一原则：**人是决策者，Agent 是执行者**。落到下面的规则，分别约束上面的每个环节：
+所有 Skill 遵循同一核心原则：**人是决策者，Agent 是执行者**，并以此约束各协作环节：
 
 - **指令分型**：咨询类只分析不改文件，改动类只改文件。
 - **不可逆动作熔断**：`commit` / `push` / 删除等写操作等用户显式授权。
@@ -37,7 +37,7 @@
 | `languages/` | [`dbk-python-style`](skills/languages/dbk-python-style/) | Python 约定：uv、3.10+ 基线、类型注解风格、pathlib、rich/loguru |
 | | [`dbk-rust-gates`](skills/languages/dbk-rust-gates/) | Rust 门禁：commit 前 fmt + clippy --fix，push 前最小受影响 test，影响不明时扩大范围 |
 | `git-workflow/` | [`dbk-git-worktree`](skills/git-workflow/dbk-git-worktree/) | worktree 创建流程：分支名建议 → 确认 → `.worktrees/` 落位 |
-| | [`dbk-upstream-conflict`](skills/git-workflow/dbk-upstream-conflict/) | 上游合并：主动拉取上游主分支合并到当前分支；冲突处理保留本分支功能、Cargo.lock 重建 |
+| | [`dbk-upstream-conflict`](skills/git-workflow/dbk-upstream-conflict/) | 上游合并：主动拉取上游主分支合并到当前分支。冲突处理保留本分支功能、Cargo.lock 重建 |
 | | [`dbk-pr-feedback`](skills/git-workflow/dbk-pr-feedback/) | PR 评审意见处理：先评估 → 写 notes/review → 确认后修复 |
 | | [`dbk-pr-commit-reply`](skills/git-workflow/dbk-pr-commit-reply/) | PR 评审收尾（仅手动触发）：按领域拆提交 → push → 逐条回复评审意见 |
 | | [`dbk-pr-execute-reply`](skills/git-workflow/dbk-pr-execute-reply/) | PR 评审执行落地（仅手动触发）：执行已定方案 → 分段提交 → push → 逐条回复评审意见 |
