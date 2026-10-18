@@ -1,5 +1,9 @@
 # dbk-skills
 
+[![skills.sh](https://skills.sh/b/DBinK/dbk-skills)](https://skills.sh/DBinK/dbk-skills)
+[![Specification](https://img.shields.io/badge/spec-agentskills.io-black)](https://agentskills.io)
+[![License: MIT](https://img.shields.io/github/license/DBinK/dbk-skills)](LICENSE)
+
 与 Agent 协作开发时，失控往往发生在边界模糊的瞬间：咨询类问题被当成改动执行、修改完成后未经确认便自动 `commit` 与 `push`、外部评审意见未经甄别就全盘采纳。
 
 `dbk-skills` 是一套面向代码质量与工程安全的 Agent Skills 规则集。核心逻辑只有一条：**明确人机权责边界，不可逆操作必须显式授权**。

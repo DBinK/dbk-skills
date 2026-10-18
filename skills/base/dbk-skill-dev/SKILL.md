@@ -96,7 +96,10 @@ uv run scripts/run_trigger_eval.py <skill>/evals/trigger-queries.json <skill-nam
 
 ### 6. 打包与呈现
 
-如果用户想要可安装的产物，查看规范中当前的打包约定（例如 `.skill` 文件），按约定产出。
+- **本地安装产物**：如果用户想要可安装的归档产物，查看规范中当前的打包约定（例如 `.skill` 文件），按约定产出。
+- **GitHub 与 skills.sh 仓库分发**：上传至 GitHub 的技能仓库会同时在 GitHub 与 [skills.sh](https://www.skills.sh) 分发：
+  - **仓库页面分组（[`skills.sh.json`](https://www.skills.sh/docs/customize)）**：仅当仓库存在明显分级的嵌套分类文件夹（如 `skills/<分类>/<skill名>`）时，在仓库根目录配置 `skills.sh.json`（`$schema` 为 `https://skills.sh/schemas/skills.sh.schema.json`），通过 `groupings`（含 `title`、`description`、`skills`）映射目录分级与组内排序。已有 `skills.sh.json` 的仓库在新增、改名或删除技能时，同步更新其中的 `skills` 列表。
+  - **README 徽章（可选）**：可在仓库 README 顶部添加安装量徽章 `[![skills.sh](https://skills.sh/b/<owner>/<repo>)](https://skills.sh/<owner>/<repo>)`。
 
 ## 范围护栏
 

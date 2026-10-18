@@ -1,0 +1,34 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Base",
+      "description": "协作硬规则、文档文风与 Skill 开发元技能。",
+      "skills": [
+        "dbk-agent-rules",
+        "dbk-skill-dev",
+        "dbk-doc-style"
+      ]
+    },
+    {
+      "title": "Languages",
+      "description": "语言栈开发约定与提交/推送前质量门禁。",
+      "skills": [
+        "dbk-python-style",
+        "dbk-rust-gates"
+      ]
+    },
+    {
+      "title": "Git Workflow",
+      "description": "Worktree 并行开发、上游冲突合并与 PR 评审闭环工作流。",
+      "skills": [
+        "dbk-git-worktree",
+        "dbk-upstream-conflict",
+        "dbk-pr-feedback",
+        "dbk-pr-execute-reply",
+        "dbk-pr-commit-reply"
+      ]
+    }
+  ]
+}
