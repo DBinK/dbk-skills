@@ -1,16 +1,16 @@
 ---
 name: dbk-pr-execute-reply
-description: 把对话里已经聊定的 PR 评审修复方案立刻落地：改代码、按领域分段提交、推送到 PR、逐条回复评审意见，一条龙做完。仅在用户显式调用时使用（点名 dbk-pr-execute-reply，或明确要求"按刚聊的方案执行并提交推送回复评审"）；不要从上下文自动触发。只聊方案不动手、改动已就绪只差提交、评估评审意见、创建或合并 PR、排查 CI 都不适用。
+description: 作为 PR 作者，把已经定夺的 PR 评审修复方案立刻落地：改代码、按领域分段提交、推送到 PR、逐条回复 reviewer 的评审意见，一条龙做完。仅在用户显式调用时使用（点名 dbk-pr-execute-reply，或明确要求"按刚聊的方案执行并提交推送回复评审"）；不要从上下文自动触发。作为 reviewer 向他人 PR 发送内联评审意见、只聊方案不动手、改动已就绪只差提交、评估评审意见、创建或合并 PR、排查 CI 都不适用。
 compatibility: 需要 git 与已安装并登录的 gh CLI
 license: MIT
 metadata:
   author: DBinK
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
-# PR 评审修复的执行与落地
+# PR 评审修复的执行与落地（作者视角）
 
-比 `dbk-pr-commit-reply` 多一步：方案已经在对话里聊定，从**改代码**开始，一路做到提交、推送、回复评审意见。
+作为 PR 作者（比 `dbk-pr-commit-reply` 多一步）：在 `dbk-pr-feedback` 或对话中已经定夺好修复方案后，从**改代码**开始，一路做到分段提交、推送、逐条回复 reviewer。
 
 ## 授权前提
 

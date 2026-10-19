@@ -1,16 +1,16 @@
 ---
 name: dbk-pr-commit-reply
-description: 把按 PR 评审意见修好的改动提交、推送到 PR，并逐条回复评审意见。仅在用户显式调用时使用（点名 dbk-pr-commit-reply，或明确要求"把评审修复提交推送并回复评论""评审收尾"）；不要从上下文自动触发。普通 commit/push、只回复评论、只提交不回复、创建或合并 PR、排查 CI 都不适用。
+description: 作为 PR 作者，把按评审意见已经修好的本地改动提交、推送到 PR，并逐条回复 reviewer 的评论。仅在用户显式调用时使用（点名 dbk-pr-commit-reply，或明确要求"把评审修复提交推送并回复评论""评审收尾"）；不要从上下文自动触发。作为 reviewer 向他人 PR 发送内联评审意见、代码还没改、普通 commit/push、只回复评论、只提交不回复、创建或合并 PR、排查 CI 都不适用。
 compatibility: 需要 git 与已安装并登录的 gh CLI
 license: MIT
 metadata:
   author: DBinK
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
-# PR 评审修复的提交与回复
+# PR 评审修复的提交与回复（作者视角）
 
-`dbk-pr-feedback` 的收尾步骤：评审意见已经改好、改动还没提交时，把改动提交、推送到 PR，并逐条回复评审意见。
+作为 PR 作者，当评审意见对应的代码已经在本地修改完毕、但尚未提交时，把改动分段提交、推送到 PR，并在原讨论线程下逐条回复 reviewer。
 
 ## 授权前提
 
