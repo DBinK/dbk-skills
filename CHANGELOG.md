@@ -4,6 +4,22 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，条目按日期组织（个人项目，暂不采用版本号）。
 
+## 2026-10-19
+
+### Added
+
+- 新增 `dbk-pr-submit-review`：Reviewer 视角的 PR 评审意见提交技能（仅显式调用触发）。读取 `./notes/review/` 下已定夺的评估笔记，剔除不反馈条目后重新连续编号，保留 `## <序号>. <摘要>` 及下方三个小节的原格式，核对目标 PR 的 diff 行号后通过 `gh api .../pulls/{pr}/reviews` 一次性批量提交为内联评论。
+
+### Changed
+
+- `dbk-pr-feedback` 升级至 `0.3.0`：
+  - **支持任意来源意见**：按「对话与上下文指定 → 用户指定其他 PR → 默认当前分支关联 PR 未处理意见（GraphQL `reviewThreads` 过滤 `isResolved == false`）」三级优先级获取意见。
+  - **新增目标代码定位与同步策略**：按「当前工作区（落后则安全拉取）→ 本地已有 Worktree → `git fetch` + 临时只读 Worktree → 在线 API / 浅克隆」四级顺序确保基于目标 PR 的最新代码核实事实。
+  - **评估笔记规范与边界收敛**：要求提及评估文档时始终输出绝对路径，模板增加 `- **位置**` 坐标并采用角色中立的客观陈述口吻，技能边界收敛为只做到产出并定夺评估笔记为止，收尾提示分流至 `dbk-pr-execute-reply`（作者视角）或 `dbk-pr-submit-review`（Reviewer 视角）。
+- `dbk-pr-execute-reply`、`dbk-pr-commit-reply` 升级至 `0.2.1`：在 `description` 与正文开头明确“作为 PR 作者”的身份前提，在开头简介与授权前提中补齐“重新请求评审”环节，并在不适用边界中与 Reviewer 视角的 `dbk-pr-submit-review` 区分。
+- `dbk-agent-rules`（升至 `0.3.1`）相关技能路由表补齐 `dbk-pr-execute-reply`、`dbk-pr-commit-reply` 与 `dbk-pr-submit-review`。
+- `AGENTS.md` 注意事项补充“版本号 bump 与 `CHANGELOG.md` 联动更新”及同步检查 `dbk-agent-rules` 技能路由表的要求。
+
 ## 2026-10-13
 
 ### Added

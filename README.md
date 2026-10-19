@@ -43,8 +43,8 @@
 | `git-workflow/` | [`dbk-git-worktree`](skills/git-workflow/dbk-git-worktree/) | worktree 创建流程：分支名建议 → 确认 → `.worktrees/` 落位 |
 | | [`dbk-upstream-conflict`](skills/git-workflow/dbk-upstream-conflict/) | 上游合并：主动拉取上游主分支合并到当前分支。冲突处理保留本分支功能、Cargo.lock 重建 |
 | | [`dbk-pr-feedback`](skills/git-workflow/dbk-pr-feedback/) | 评审意见评估（默认本分支 PR 未处理意见，支持指定 PR 或上下文意见）：逐条核实 → 写 `notes/review`（输出绝对路径）→ 定夺后分流 |
-| | [`dbk-pr-commit-reply`](skills/git-workflow/dbk-pr-commit-reply/) | PR 评审收尾（仅手动触发）：按领域拆提交 → push → 逐条回复评审意见 |
-| | [`dbk-pr-execute-reply`](skills/git-workflow/dbk-pr-execute-reply/) | PR 评审执行落地（仅手动触发）：执行已定方案 → 分段提交 → push → 逐条回复评审意见 |
+| | [`dbk-pr-commit-reply`](skills/git-workflow/dbk-pr-commit-reply/) | PR 评审收尾（作者视角，仅手动触发）：按领域拆提交 → push → 逐条回复评审意见 → 重新请求评审 |
+| | [`dbk-pr-execute-reply`](skills/git-workflow/dbk-pr-execute-reply/) | PR 评审执行落地（作者视角，仅手动触发）：执行已定方案 → 分段提交 → push → 逐条回复评审意见 → 重新请求评审 |
 | | [`dbk-pr-submit-review`](skills/git-workflow/dbk-pr-submit-review/) | PR 评审意见提交（Reviewer 视角，仅手动触发）：筛选评估笔记条目 → 重新编号 → 按原格式批量发到 PR 内联评论 |
 
 ## 安装

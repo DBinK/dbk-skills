@@ -4,7 +4,7 @@ description: 用户与 Agent 协作的指导规则，适用于一切工作场景
 license: MIT
 metadata:
   author: DBinK
-  version: "0.3.0"
+  version: "0.3.1"
 ---
 
 # Agent 协作准则

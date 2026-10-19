@@ -97,5 +97,7 @@ skills/
 
 ## 注意
 
-- 本仓库全是文本文件，没有 LSP 兜底。**修改任何文件后，必须手动检查所有相关引用是否同步更新**：skill 新增/改名/移动/删除时，README 分类表、安装命令、`skills.sh.json` 分组、`.agents/skills/` 符号链接、AGENTS.md 中的路径都要跟着改。
+- 本仓库全是文本文件，没有 LSP 兜底。**修改任何文件后，必须手动检查所有相关引用是否同步更新**：
+  - skill 新增/改名/移动/删除时，`README.md` 分类表、安装命令、`skills.sh.json` 分组、`skills/base/dbk-agent-rules/SKILL.md` 的「相关技能路由」表、`.agents/skills/` 符号链接、`AGENTS.md` 中的路径都要跟着改。
+  - **版本号 bump 与 `CHANGELOG.md` 联动**：修改技能后按变更性质更新 frontmatter 的 `metadata.version`（新增 `0.1.0`、影响行为的变更 bump minor、纯格式/微调 bump patch），并同步按 Keep a Changelog 格式更新 [`CHANGELOG.md`](CHANGELOG.md)（按当天日期归档）。
 - 所有改动只修改文件，add/commit/push 由用户决定。
