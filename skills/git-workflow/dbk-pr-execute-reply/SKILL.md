@@ -20,6 +20,7 @@ metadata:
 
 - 只聊方案、只要评估，不动手 → 走 `dbk-pr-feedback` 或普通对话
 - 改动已经就绪、只差提交推送和回复 → 走 `dbk-pr-commit-reply`
+- 作为 reviewer 把评估笔记发为 PR 内联评论 → 走 `dbk-pr-submit-review`
 - 只改代码不提交、只提交不回复、创建或合并 PR、排查 CI → 都不走本技能
 
 ## 工作流

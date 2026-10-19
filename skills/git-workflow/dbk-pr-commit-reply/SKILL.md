@@ -18,7 +18,7 @@ metadata:
 
 不要因为对话里出现"修复完成""评审改完了"就自行进入本流程，也不要拿它兜普通开发改动的提交推送。
 
-不适用：还在评估评审意见（走 `dbk-pr-feedback`）、方案已定但代码还没改（走 `dbk-pr-execute-reply`）、只回复评论、只提交不回复、创建或合并 PR、排查 CI。
+不适用：还在评估评审意见（走 `dbk-pr-feedback`）、方案已定但代码还没改（走 `dbk-pr-execute-reply`）、作为 reviewer 把评估笔记发为内联评论（走 `dbk-pr-submit-review`）、只回复评论、只提交不回复、创建或合并 PR、排查 CI。
 
 ## 工作流
 

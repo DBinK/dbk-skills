@@ -82,7 +82,10 @@ metadata:
 | Rust 项目里要 commit/push     | `dbk-rust-gates`        |
 | 创建 worktree、开分支并行开发 | `dbk-git-worktree`      |
 | 同步上游主分支、合并冲突      | `dbk-upstream-conflict` |
-| 处理 GitHub PR 的评审意见     | `dbk-pr-feedback`       |
+| 评估 PR 或上下文中的评审意见  | `dbk-pr-feedback`       |
+| 执行评审修复并提交回复（显式）| `dbk-pr-execute-reply`  |
+| 提交已改好的评审修复并回复（显式）| `dbk-pr-commit-reply` |
+| 将评估笔记发为 PR 内联评论（显式）| `dbk-pr-submit-review` |
 
 ## 全局启用（可选）
 

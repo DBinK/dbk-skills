@@ -27,7 +27,8 @@
         "dbk-upstream-conflict",
         "dbk-pr-feedback",
         "dbk-pr-execute-reply",
-        "dbk-pr-commit-reply"
+        "dbk-pr-commit-reply",
+        "dbk-pr-submit-review"
       ]
     }
   ]

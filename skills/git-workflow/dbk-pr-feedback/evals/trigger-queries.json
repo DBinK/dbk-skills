@@ -7,6 +7,8 @@
   { "query": "有人在我 PR 里留了条内联评论说循环里查库性能差，帮我看看", "should_trigger": true },
   { "query": "评估一下这条 review 意见：建议把 sync 函数改成异步的，属实吗", "should_trigger": true },
   { "query": "PR 评审过了但有个 nit，回复一下 reviewer 然后修掉", "should_trigger": true },
+  { "query": "看看当前分支的 PR 还有哪些没处理的意见", "should_trigger": true },
+  { "query": "把刚才上下文里另一个 agent 给出的几条 review 意见评估一下，写到评估笔记里", "should_trigger": true },
   { "query": "帮我在提交前对本地改动做个 code review", "should_trigger": false },
   { "query": "给我自己的代码提点改进意见，还没开 PR", "should_trigger": false },
   { "query": "创建一个新 PR 把这个分支合进 main", "should_trigger": false },
