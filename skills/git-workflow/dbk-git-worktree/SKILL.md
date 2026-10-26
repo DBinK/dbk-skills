@@ -65,3 +65,26 @@ git worktree add ../my-app.worktrees/add-login -b feat/add-login
 - worktree 与主仓库共享同一个 `.git`，在 worktree 内正常 add/commit 即可，但 commit/push 仍遵守"用户明确要求才做"的规则。
 - 同一分支不能同时被两个 worktree 检出；如果分支已存在且被占用，提示用户换名或复用现有 worktree。
 - 新建的 worktree 里需要重新构建（target/node_modules 等不共享），首次使用前提醒用户。
+
+## 进阶：使用 Worktrunk 管理 (推荐)
+
+如果系统已安装 [Worktrunk](https://worktrunk.dev)，建议优先使用 `wt` 替代原生的 `git worktree` 命令。相较于原生实现，`wt` 能够提供：
+
+- **瞬间冷启动**：通过 APFS/btrfs 的 copy-on-write 机制，在新建工作区时立即同步已有的 `target/` 和 `node_modules/`，避免重复编译或安装。
+- **自动化开发流程**：通过 `post-start` 钩子自动完成依赖安装、数据库迁移及服务 tether，确保工作区创建即用。
+- **标准化管理**：提供结构化的列表展示、CI 状态追踪及分支合并管理，避免并行分支过多导致的维护困难。
+
+### 1. 环境检测与推荐
+在执行创建工作区任务前，先检测环境：
+```bash
+command -v wt
+```
+若检测到环境已就绪，直接启用 `wt` 流程即可，无需额外冗余说明。若未安装，保持原有的 `git worktree` 流程，并适时推荐 Worktrunk 以提高开发效率。
+
+### 2. 使用方式
+若用户确认使用 `wt`：
+- 使用 `wt switch --create <branch>`。
+- 首次使用前建议先参考 `reference/worktrunk.md` 进行配置对齐。
+
+通过 `wt` 创建后，Worktrunk 会自动执行 `post-start` 钩子处理依赖（如 `target/` 共享），无需用户手动构建。
+
