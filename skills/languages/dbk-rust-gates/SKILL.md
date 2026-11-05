@@ -5,12 +5,12 @@ license: MIT
 compatibility: 需要 cargo 工具链（含 rustfmt、clippy 组件，需用 rustup component add rustfmt clippy 安装）；同时需要 git
 metadata:
   author: DBinK
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Rust 提交/推送门禁
 
-Rust 项目（以存在 `Cargo.toml` 为准）的硬性检查顺序。**fmt / clippy 命令原样执行。test 保留 `--all-features`，按影响范围选择包、target 和用例，不默认执行全量测试。**
+Rust 项目（以存在 `Cargo.toml` 为准）的硬性检查顺序。**fmt / clippy 命令原样执行。test 优先使用 `cargo-nextest`，未安装时回退到 `cargo test`。测试保留 `--all-features`，按影响范围选择包、target 和用例，不默认执行全量测试。**
 
 ## 第 0 步：判定本次改动是否涉及 Rust
 
@@ -56,7 +56,31 @@ cargo clippy --fix --all-targets --all-features --allow-dirty --allow-staged -- 
 | Cargo 清单、依赖、feature、构建脚本或配置变化 | 至少执行受影响包及依赖方的包级测试，不使用用例名筛选。无法可靠界定包集合时执行 workspace 全量测试 |
 | 影响遍及 workspace，或分析后仍无法界定边界    | workspace 全量测试，并说明回退原因                                                                |
 
-以下为命令模板，替换占位符，只执行选中的命令。包级默认测试包含 doctest，指定 `--lib` 或 `--test` 时则需单独补充相关 doctest：
+以下为测试命令模板，替换占位符，只执行选中的命令。
+
+#### 1. 优先使用 `cargo-nextest`（单元测试与集成测试）
+
+环境已安装 `cargo-nextest` 时优先使用（提供用例级进程隔离与高并发加速）。若未安装，回退至原生 `cargo test`，并在**门禁执行完毕向用户汇报时**附带一行轻量建议：“*检测到当前未安装 `cargo-nextest`，推荐运行 `cargo binstall cargo-nextest` 安装以提升门禁测试速度与隔离性。*”：
+
+```bash
+cargo nextest run -p <package> --all-features -E 'test(=<full-test-name>)'
+cargo nextest run -p <package> --all-features -E 'test(<module-filter>)'
+cargo nextest run -p <package> --all-features --test <target>
+cargo nextest run -p <package> --all-features
+cargo nextest run --workspace --all-features
+```
+
+#### 2. 文档测试（Doctest）补跑
+
+`cargo-nextest` 不支持运行文档测试。涉及公共 API 或显式指定 `--doc` 时，必须使用原生 `cargo test` 单独执行：
+
+```bash
+cargo test -p <package> --all-features --doc
+```
+
+#### 3. 回退模板：原生 `cargo test`
+
+未安装 `cargo-nextest` 时的回退命令。包级默认测试包含 doctest，指定 `--lib` 或 `--test` 时则需单独补充相关 doctest：
 
 ```bash
 cargo test -p <package> --all-features --lib <full-test-name> -- --exact

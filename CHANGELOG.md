@@ -4,6 +4,15 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，条目按日期组织（个人项目，暂不采用版本号）。
 
+## 2026-11-05
+
+### Changed
+
+- `dbk-rust-gates` 升级至 `0.3.0`：
+  - **优先使用 `cargo-nextest` 运行测试**：在受影响测试阶段，检测到环境存在 `cargo-nextest` 时优先采用其运行单元与集成测试（提供用例级进程隔离与高并发加速）。
+  - **Doctest 独立补充机制**：鉴于 `nextest` 不支持文档测试，明确涉及公共 API 或文档测试时使用 `cargo test -p <pkg> --all-features --doc` 独立补充。
+  - **平滑回退与安装推荐**：未安装 `cargo-nextest` 时平滑回退到原生 `cargo test` 模板，并在门禁收尾时向用户轻量建议运行 `cargo binstall cargo-nextest`。
+
 ## 2026-10-27
 
 ### Changed
