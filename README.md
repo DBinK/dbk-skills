@@ -36,7 +36,7 @@
 | 分类 | Skill | 用途 |
 |---|---|---|
 | `base/` | [`dbk-agent-rules`](skills/base/dbk-agent-rules/) | Agent 协作准则：中文回答、咨询/改动边界、git 操作熔断、命名只推荐 |
-| | [`dbk-ask`](skills/base/dbk-ask/) | 咨询与方案探讨安全锁：反谄媚/防脑补反讽、只读与原子验证、输出状态锁、拍板后解锁 |
+| | [`dbk-ask`](skills/base/dbk-ask/) | 咨询与方案探讨安全锁：反谄媚/防脑补反讽、允许写方案文档、代码只读与原子验证、输出状态锁、拍板后解锁 |
 | | [`dbk-skill-dev`](skills/base/dbk-skill-dev/) | Skill 全生命周期开发：创建、迭代、触发优化与评估 |
 | | [`dbk-doc-style`](skills/base/dbk-doc-style/) | 项目文档文风检查与生成：中英文规范、去冗余、读者边界 |
 | `languages/` | [`dbk-python-style`](skills/languages/dbk-python-style/) | Python 约定：uv、3.10+ 基线、类型注解风格、pathlib、rich/loguru |
