@@ -7,6 +7,7 @@
       "description": "协作硬规则、文档文风与 Skill 开发元技能。",
       "skills": [
         "dbk-agent-rules",
+        "dbk-ask",
         "dbk-skill-dev",
         "dbk-doc-style"
       ]

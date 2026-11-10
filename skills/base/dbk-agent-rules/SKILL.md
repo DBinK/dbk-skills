@@ -4,7 +4,7 @@ description: 用户与 Agent 协作的指导规则，适用于一切工作场景
 license: MIT
 metadata:
   author: DBinK
-  version: "0.3.2"
+  version: "0.3.3"
 ---
 
 # Agent 协作准则
@@ -77,6 +77,7 @@ metadata:
 
 | 场景                          | 技能                    |
 | ----------------------------- | ----------------------- |
+| 纯咨询/方案讨论/防乱改与反问锁| `dbk-ask`               |
 | 写/改文档、PR 描述            | `dbk-doc-style`         |
 | 创建、修改、迭代 skill        | `dbk-skill-dev`         |
 | 写/改 Python 代码             | `dbk-python-style`      |
